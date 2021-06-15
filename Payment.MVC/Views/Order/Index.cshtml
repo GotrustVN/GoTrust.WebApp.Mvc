@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "List of orders";
+}
+
+@section Scripts
+{
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#grid').dataTable({
+                ordering: true,
+                searching: true,
+                paging: true,
+                info: false,
+                responsive: true,
+                language: {
+                    paginate: {
+                        previous: "Trước",
+                        next: "Tiếp",
+                        first: "Đầu",
+                        last: "Cuối"
+                    },
+                    emptyTable: "Không có dữ liệu",
+                    lengthMenu: "Số lượng của trang _MENU_",
+                    search: "Tìm kiếm:",
+                },
+                ajax: {
+                    url: "@Url.Action("GetAllPaging", "Order")",
+                    dataSrc: 'data'
+                },
+                columns: [
+                    { data: "orderId" },
+                    { data: "type.name", defaultContent: '' },
+                    { data: "orderDescription"},
+                    { data: "amount"},
+                    { data: "createdAt" },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            if (data.status != null) {
+                                let temp = "<span style='color:" + data.status.forceColor + "'>" + data.status.name + "</span>";
+                                console.log(temp);
+                                return temp;
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            let url = "@Url.Action("Detail","Order")?orderId=" + data.orderId;
+                            return "<a class='btn btn-success text-white' href="+url+"><i class='fas fa-external-link-alt'></i></a>"
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
+
+<div class="row w-100 m-0">
+    <div class="card w-100">
+        <div class="card-header">
+            <div class="row w-100 m-0">
+                <div class="col-10">
+                    <h3 class="card-title m-0">Danh sách đơn hàng</h3>
+                </div>
+                <div class="col-2 px-0 px-md-2">
+                    <a class="btn btn-success w-100 text-white" asp-action="Index" asp-controller="Payment">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="grid" class="table table-striped table-bordered w-100">
+                <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Loại</th>
+                        <th>Nội dung</th>
+                        <th>Tiền</th>
+                        <th>Ngày thực hiện</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
