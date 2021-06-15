@@ -134,5 +134,85 @@ namespace Payment.SharedUltilities.Global
             }
         }
         #endregion
+
+        #region HDInsurance
+        public static string HDInsurance_Url
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("HDInsurance")
+                    .GetSection("HDInsurance_Url").Value;
+            }
+        }
+        public static string HDInsurance_Secret
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("HDInsurance")
+                    .GetSection("HDInsurance_Secret").Value;
+            }
+        }
+        public static string HDInsurance_UserName
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("HDInsurance")
+                    .GetSection("HDInsurance_UserName").Value;
+            }
+        }
+        public static string HDInsurance_Password
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("HDInsurance")
+                    .GetSection("HDInsurance_Password").Value;
+            }
+        }
+        public static string HDInsurance_ActionCode
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("HDInsurance")
+                    .GetSection("HDInsurance_ActionCode").Value;
+            }
+        }
+        public static string HDInsurance_ClientId
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("HDInsurance")
+                    .GetSection("HDInsurance_ClientId").Value;
+            }
+        }
+        public static string HDInsurance_Channel
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("HDInsurance")
+                    .GetSection("HDInsurance_Channel").Value;
+            }
+        }
+        #endregion
     }
 }
