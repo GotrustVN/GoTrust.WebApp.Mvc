@@ -18,6 +18,7 @@ namespace Payment.Data.Entities
         public Ward ward { get; set; }
         public string address { get; set; }
         public string fullAddress { get; set; }
+        public string nationality { get; set; }
         public string identityNumber { get; set; }
         public string identityPlace { get; set; }
         public DateTime identityDate { get; set; }

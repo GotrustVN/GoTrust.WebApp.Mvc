@@ -41,6 +41,9 @@ namespace Payment.Data.Context
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Ward> Ward { get; set; }
         public virtual DbSet<CustomerType> CustomerType { get; set; }
+        public virtual DbSet<HealthInsuranceOrder> HealthInsuranceOrder { get; set; }
+        public virtual DbSet<HealthInsuranceDetail> HealthInsuranceDetail { get; set; }
+        public virtual DbSet<HealthInsurancePayment> HealthInsurancePayment { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -60,6 +63,9 @@ namespace Payment.Data.Context
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new FileImportConfiguration());
             modelBuilder.ApplyConfiguration(new WardConfiguration());
+            modelBuilder.ApplyConfiguration(new HealthInsuranceDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new HealthInsuranceOrderConfiguration());
+            modelBuilder.ApplyConfiguration(new HealthInsurancePaymentConfiguration());
         }
 
     }
