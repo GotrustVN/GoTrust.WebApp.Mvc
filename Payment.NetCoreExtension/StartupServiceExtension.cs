@@ -27,6 +27,9 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IGenericRepository<District>, GenericRepository<District>>();
             services.AddScoped<IGenericRepository<Ward>, GenericRepository<Ward>>();
             services.AddScoped<IGenericRepository<Gender>, GenericRepository<Gender>>();
+            services.AddScoped<IGenericRepository<HealthInsuranceOrder>, GenericRepository<HealthInsuranceOrder>>();
+            services.AddScoped<IGenericRepository<HealthInsurancePayment>, GenericRepository<HealthInsurancePayment>>();
+            services.AddScoped<IGenericRepository<HealthInsuranceDetail>, GenericRepository<HealthInsuranceDetail>>();
         }
     }
 }

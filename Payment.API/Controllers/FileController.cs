@@ -26,6 +26,7 @@ namespace Payment.API.Controllers
             this.context = context;
         }
 
+        [HttpPost]
         public ActionResult<CommonResponse> ImportCustomer(ImportCustomerRequestModel request)
         {
             if(request.uploadFile != null)
