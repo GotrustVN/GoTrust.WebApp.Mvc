@@ -113,12 +113,12 @@ namespace Payment.API.Controllers
 
                 if(result > 0)
                 {
-                    response.GetCreateSuccessResponse()
+                    response.GetCreateSuccessResponse("customer")
                         .SetData(customer);
                 }
                 else
                 {
-                    response.GetCreateFailedResponse();
+                    response.GetCreateFailedResponse("customer");
                 }
 
                 return response;
@@ -182,12 +182,12 @@ namespace Payment.API.Controllers
 
                         if (result > 0)
                         {
-                            response.GetUpdateSuccessResponse()
+                            response.GetUpdateSuccessResponse("customer")
                                 .SetData(customer);
                         }
                         else
                         {
-                            response.GetUpdateFailedResponse();
+                            response.GetUpdateFailedResponse("customer");
                         }
 
                         return response;
@@ -214,12 +214,12 @@ namespace Payment.API.Controllers
 
                 if (result > 0)
                 {
-                    response.GetDeleteSuccessResponse()
+                    response.GetDeleteSuccessResponse("customer")
                         .SetData(customer);
                 }
                 else
                 {
-                    response.GetDeleteFailedResponse();
+                    response.GetDeleteFailedResponse("customer");
                 }
 
                 return response;

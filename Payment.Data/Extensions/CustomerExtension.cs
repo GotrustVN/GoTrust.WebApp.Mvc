@@ -16,23 +16,25 @@ namespace Payment.Data.Extensions
 
             if (customer.ward != null)
             {
-                fullAddress = customer.ward.name + ", " + fullAddress;
+                fullAddress = fullAddress  + ", " + customer.ward.name;
             }
 
             if(customer.district != null)
             {
-                fullAddress = customer.district.name + ", " + fullAddress;
+                fullAddress = fullAddress  + ", " + customer.district.name;
             }
 
             if (customer.province != null)
             {
-                fullAddress = customer.province.name + ", " + fullAddress;
+                fullAddress = fullAddress  + ", " + customer.province.name;
             }
+
+            customer.fullAddress = fullAddress;
         }
 
         public static void SetDefaultValue(this Customer customer)
         {
-            if (!string.IsNullOrEmpty(customer.code))
+            if (string.IsNullOrEmpty(customer.code))
             {
                 customer.code = AppGlobal.DefaultStringCode;
             }

@@ -17,16 +17,22 @@ namespace Payment.Data.Configuration
             builder.Property(x => x.id)
                 .UseIdentityColumn();
             builder.Property(x => x.fees)
+                .HasDefaultValue(0)
                 .HasColumnType("decimal(19,9)");
             builder.Property(x => x.amount)
+                .HasDefaultValue(0)
                 .HasColumnType("decimal(19,9)");
             builder.Property(x => x.vat)
+                .HasDefaultValue(0)
                 .HasColumnType("decimal(19,9)");
             builder.Property(x => x.totalDiscount)
+                .HasDefaultValue(0)
                 .HasColumnType("decimal(19,9)");
             builder.Property(x => x.totalAdd)
+                .HasDefaultValue(0)
                 .HasColumnType("decimal(19,9)");
             builder.Property(x => x.totalAmount)
+                .HasDefaultValue(0)
                 .HasColumnType("decimal(19,9)");
 
             builder.HasOne(x => x.order).WithMany(z => z.Details);

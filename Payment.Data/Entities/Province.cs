@@ -10,5 +10,6 @@ namespace Payment.Data.Entities
     {
         public string code { get; set; }
         public string name { get; set; }
+        public virtual ICollection<District> districts { get; set; }
     }
 }

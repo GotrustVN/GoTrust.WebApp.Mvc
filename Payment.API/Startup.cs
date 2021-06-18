@@ -32,7 +32,8 @@ namespace Payment.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddHttpClient();
             services.AddConnectedService();
             services.AddRepostiories();
@@ -42,6 +43,8 @@ namespace Payment.API
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new OrderRequestMapping());
+                mc.AddProfile(new CustomerRequestMapping());
+                mc.AddProfile(new HealthInsuranceRequestMapping());
             });
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);

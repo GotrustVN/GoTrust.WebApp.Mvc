@@ -23,6 +23,7 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IGenericRepository<Language>, GenericRepository<Language>>();
             services.AddScoped<IGenericRepository<PaymentLog>, GenericRepository<PaymentLog>>();
             services.AddScoped<IGenericRepository<Customer>, GenericRepository<Customer>>();
+            services.AddScoped<IGenericRepository<CustomerType>, GenericRepository<CustomerType>>();
             services.AddScoped<IGenericRepository<Province>, GenericRepository<Province>>();
             services.AddScoped<IGenericRepository<District>, GenericRepository<District>>();
             services.AddScoped<IGenericRepository<Ward>, GenericRepository<Ward>>();
@@ -30,6 +31,10 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IGenericRepository<HealthInsuranceOrder>, GenericRepository<HealthInsuranceOrder>>();
             services.AddScoped<IGenericRepository<HealthInsurancePayment>, GenericRepository<HealthInsurancePayment>>();
             services.AddScoped<IGenericRepository<HealthInsuranceDetail>, GenericRepository<HealthInsuranceDetail>>();
+            services.AddScoped<IGenericRepository<MasterCategory>, GenericRepository<MasterCategory>>();
+            services.AddScoped<IProvinceRepository, ProvinceRepository>();
+            services.AddScoped<IMasterCategoryRepository, MasterCatetoryRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Payment.API.Models;
 using Payment.Data.Context;
 using Payment.Data.Entities;
+using Payment.Data.Extensions;
 using Payment.Data.Repositories;
 using Payment.SharedModel.Common;
 using System;
@@ -22,18 +23,27 @@ namespace Payment.API.Controllers
         private readonly IGenericRepository<HealthInsuranceOrder> genericHealthInsuranceOrderRepository;
         private readonly IGenericRepository<HealthInsuranceDetail> genericHealthInsuranceDetailRepository;
         private readonly IGenericRepository<HealthInsurancePayment> genericHealthHealthInsurancePaymentRepository;
+        private readonly IGenericRepository<Customer> genericCustomerRepository;
+        private readonly IGenericRepository<MasterCategory> genericMasterCategoryRepository;
+        private readonly ICustomerRepository customerRepository;
 
         public HealthInsuranceController(IMapper mapper,
             AppDbContext context,
             IGenericRepository<HealthInsuranceOrder> genericHealthInsuranceOrderRepository,
             IGenericRepository<HealthInsuranceDetail> genericHealthInsuranceDetailRepository,
-            IGenericRepository<HealthInsurancePayment> genericHealthHealthInsurancePaymentRepository)
+            IGenericRepository<HealthInsurancePayment> genericHealthHealthInsurancePaymentRepository,
+            IGenericRepository<Customer> genericCustomerRepository,
+            IGenericRepository<MasterCategory> genericMasterCategoryRepository,
+            ICustomerRepository customerRepository)
         {
             this.mapper = mapper;
             this.context = context;
             this.genericHealthInsuranceOrderRepository = genericHealthInsuranceOrderRepository;
             this.genericHealthInsuranceDetailRepository = genericHealthInsuranceDetailRepository;
             this.genericHealthHealthInsurancePaymentRepository = genericHealthHealthInsurancePaymentRepository;
+            this.genericCustomerRepository = genericCustomerRepository;
+            this.genericMasterCategoryRepository = genericMasterCategoryRepository;
+            this.customerRepository = customerRepository;
         }
 
         [HttpGet]
@@ -54,7 +64,54 @@ namespace Payment.API.Controllers
         {
             if(ModelState.IsValid)
             {
-                //TODO: implement logic code
+                var healthInsuranaceOrder = mapper.Map<HealthInsuranceOrder>(request);
+                healthInsuranaceOrder.SetDefaultValue();
+
+                if (!genericMasterCategoryRepository.IsExistById(request.categoryCode, out MasterCategory category))
+                {
+                    ModelState.AddModelError("CategoryCodeError", "Invalid category code");
+                    return BadRequest();
+                }
+
+                healthInsuranaceOrder.category = category;
+
+                if (!customerRepository.IsValidCustomerCode(request.buyerCode, out Customer customer))
+                {
+                    ModelState.AddModelError("CustomerCodeError", "Invalid customer code");
+                    return BadRequest();
+                }
+
+                healthInsuranaceOrder.buyer = customer;
+                healthInsuranaceOrder.UpdateBuyerInfor();
+
+                foreach(var detail in request.Details)
+                {
+                    var healthInsuranceDetail = mapper.Map<HealthInsuranceDetail>(detail);
+                    healthInsuranaceOrder.Details.Add(healthInsuranceDetail);
+                }
+
+                var payment = mapper.Map<HealthInsurancePayment>(request.payment);
+                healthInsuranaceOrder.payment = payment;
+
+                genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);
+
+                var result = context.SaveChanges();
+
+                var response = new CommonResponse();
+
+                if (result > 0)
+                {
+                    response.GetDeleteSuccessResponse("health insurance")
+                        .SetData(healthInsuranaceOrder);
+                }
+                else
+                {
+                    response.GetDeleteSuccessResponse("customer insurance")
+                        .SetData(healthInsuranaceOrder);
+                }
+
+                return response;
+
             }
             return BadRequest();
         }

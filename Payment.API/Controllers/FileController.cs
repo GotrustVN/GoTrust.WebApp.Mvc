@@ -27,7 +27,7 @@ namespace Payment.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<CommonResponse> ImportCustomer(ImportCustomerRequestModel request)
+        public ActionResult<CommonResponse> ImportCustomer([FromForm]ImportCustomerRequestModel request)
         {
             if(request.uploadFile != null)
             {

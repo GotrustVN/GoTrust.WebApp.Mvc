@@ -23,6 +23,12 @@ namespace Payment.Data.Configuration
             builder.Property(x => x.value)
                 .HasMaxLength(100);
 
+            builder.Property(x => x.createdAt)
+                .HasColumnType("datetime")
+                .HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.lastUpdatedAt)
+                .HasColumnType("datetime")
+                .HasDefaultValue(DateTime.Now);
         }
     }
 }

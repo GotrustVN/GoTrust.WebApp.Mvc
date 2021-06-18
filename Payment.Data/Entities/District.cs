@@ -11,5 +11,6 @@ namespace Payment.Data.Entities
         public string code { get; set; }
         public string name { get; set; }
         public Province province { get; set; }
+        public virtual ICollection<Ward> wards { get; set; }
     }
 }

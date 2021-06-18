@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payment.Data.Context;
 
 namespace Payment.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210618182318_updateMasterCategory")]
+    partial class updateMasterCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +42,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("createdAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 304, DateTimeKind.Local).AddTicks(5135));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 323, DateTimeKind.Local).AddTicks(3672));
 
                     b.Property<string>("createdByusername")
                         .HasColumnType("nvarchar(450)");
@@ -48,7 +50,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("lastUpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 307, DateTimeKind.Local).AddTicks(799));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 326, DateTimeKind.Local).AddTicks(1701));
 
                     b.Property<string>("lastUpdatedByusername")
                         .HasColumnType("nvarchar(450)");
@@ -152,7 +154,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("createdAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 316, DateTimeKind.Local).AddTicks(3111));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 335, DateTimeKind.Local).AddTicks(7805));
 
                     b.Property<string>("createdByusername")
                         .HasColumnType("nvarchar(450)");
@@ -160,7 +162,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("lastUpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 316, DateTimeKind.Local).AddTicks(3546));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 335, DateTimeKind.Local).AddTicks(8260));
 
                     b.Property<string>("lastUpdatedByusername")
                         .HasColumnType("nvarchar(450)");
@@ -228,7 +230,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("createdAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 334, DateTimeKind.Local).AddTicks(7693));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 355, DateTimeKind.Local).AddTicks(45));
 
                     b.Property<string>("createdByusername")
                         .HasColumnType("nvarchar(450)");
@@ -240,7 +242,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("lastUpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 334, DateTimeKind.Local).AddTicks(8035));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 355, DateTimeKind.Local).AddTicks(463));
 
                     b.Property<string>("lastUpdatedByusername")
                         .HasColumnType("nvarchar(450)");
@@ -294,9 +296,7 @@ namespace Payment.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("amount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(19,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(19,9)");
 
                     b.Property<string>("customerCode")
                         .HasColumnType("nvarchar(max)");
@@ -356,9 +356,7 @@ namespace Payment.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("fees")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(19,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(19,9)");
 
                     b.Property<string>("ordercode")
                         .HasColumnType("nvarchar(450)");
@@ -373,24 +371,16 @@ namespace Payment.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("totalAdd")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(19,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(19,9)");
 
                     b.Property<decimal>("totalAmount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(19,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(19,9)");
 
                     b.Property<decimal>("totalDiscount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(19,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(19,9)");
 
                     b.Property<decimal>("vat")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(19,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(19,9)");
 
                     b.HasKey("id");
 
@@ -415,7 +405,7 @@ namespace Payment.Data.Migrations
                     b.Property<string>("buyerCode")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("buyerDateOfBirth")
+                    b.Property<DateTime>("buyerDateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("buyerDistrict")
@@ -433,7 +423,7 @@ namespace Payment.Data.Migrations
                     b.Property<string>("buyerGender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("buyerIdentityDate")
+                    b.Property<DateTime>("buyerIdentityDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("buyerIdentityNumber")
@@ -544,7 +534,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("createdAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 320, DateTimeKind.Local).AddTicks(5810));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 340, DateTimeKind.Local).AddTicks(5986));
 
                     b.Property<string>("createdByusername")
                         .HasColumnType("nvarchar(450)");
@@ -560,7 +550,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("lastUpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 320, DateTimeKind.Local).AddTicks(6205));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 340, DateTimeKind.Local).AddTicks(6322));
 
                     b.Property<string>("lastUpdatedByusername")
                         .HasColumnType("nvarchar(450)");
@@ -597,7 +587,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("createdAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 322, DateTimeKind.Local).AddTicks(27));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 342, DateTimeKind.Local).AddTicks(953));
 
                     b.Property<string>("createdByusername")
                         .HasColumnType("nvarchar(450)");
@@ -605,7 +595,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("lastUpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 322, DateTimeKind.Local).AddTicks(393));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 342, DateTimeKind.Local).AddTicks(1345));
 
                     b.Property<string>("lastUpdatedByusername")
                         .HasColumnType("nvarchar(450)");
@@ -658,7 +648,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("createdAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 323, DateTimeKind.Local).AddTicks(2753));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 343, DateTimeKind.Local).AddTicks(4398));
 
                     b.Property<string>("createdByusername")
                         .HasColumnType("nvarchar(450)");
@@ -669,7 +659,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("lastUpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 323, DateTimeKind.Local).AddTicks(3161));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 343, DateTimeKind.Local).AddTicks(4750));
 
                     b.Property<string>("lastUpdatedByusername")
                         .HasColumnType("nvarchar(450)");
@@ -724,7 +714,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("createdAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 324, DateTimeKind.Local).AddTicks(9454));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 345, DateTimeKind.Local).AddTicks(1811));
 
                     b.Property<string>("createdByusername")
                         .HasColumnType("nvarchar(450)");
@@ -732,7 +722,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("lastUpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 324, DateTimeKind.Local).AddTicks(9783));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 345, DateTimeKind.Local).AddTicks(2154));
 
                     b.Property<string>("lastUpdatedByusername")
                         .HasColumnType("nvarchar(450)");
@@ -820,7 +810,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("createdAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 327, DateTimeKind.Local).AddTicks(1491));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 347, DateTimeKind.Local).AddTicks(4645));
 
                     b.Property<string>("createdByusername")
                         .HasColumnType("nvarchar(450)");
@@ -828,7 +818,7 @@ namespace Payment.Data.Migrations
                     b.Property<DateTime>("lastUpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2021, 6, 19, 4, 16, 3, 327, DateTimeKind.Local).AddTicks(1897));
+                        .HasDefaultValue(new DateTime(2021, 6, 19, 1, 23, 17, 347, DateTimeKind.Local).AddTicks(5057));
 
                     b.Property<string>("lastUpdatedByusername")
                         .HasColumnType("nvarchar(450)");
