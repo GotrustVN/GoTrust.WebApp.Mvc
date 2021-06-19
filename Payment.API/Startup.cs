@@ -37,6 +37,7 @@ namespace Payment.API
             services.AddHttpClient();
             services.AddConnectedService();
             services.AddRepostiories();
+            services.AddExternalService();
             services.AddSingleton<IDbInitializer, DbInitializer>();
             services.AddDbContext<AppDbContext>();
 

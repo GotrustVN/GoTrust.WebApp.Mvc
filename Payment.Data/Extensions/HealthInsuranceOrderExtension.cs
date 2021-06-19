@@ -17,6 +17,21 @@ namespace Payment.Data.Extensions
             {
                 order.code = AppGlobal.DefaultStringCode;
             }
+
+            if (string.IsNullOrEmpty(order.channel))
+            {
+                order.channel = AppGlobal.HDInsurance_Channel;
+            }
+
+            if (string.IsNullOrEmpty(order.username))
+            {
+                order.username = AppGlobal.HDInsurance_UserName;
+            }
+
+            if (string.IsNullOrEmpty(order.action))
+            {
+                order.action = AppGlobal.HDInsurance_ActionCode;
+            }
         }
 
         public static void UpdateBuyerInfor(this HealthInsuranceOrder order)

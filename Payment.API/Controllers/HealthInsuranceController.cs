@@ -6,6 +6,7 @@ using Payment.Data.Context;
 using Payment.Data.Entities;
 using Payment.Data.Extensions;
 using Payment.Data.Repositories;
+using Payment.ExternalService.HDInsurance;
 using Payment.SharedModel.Common;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace Payment.API.Controllers
         private readonly IGenericRepository<Customer> genericCustomerRepository;
         private readonly IGenericRepository<MasterCategory> genericMasterCategoryRepository;
         private readonly ICustomerRepository customerRepository;
+        private readonly IHDIService hdiService;
 
         public HealthInsuranceController(IMapper mapper,
             AppDbContext context,
@@ -34,7 +36,8 @@ namespace Payment.API.Controllers
             IGenericRepository<HealthInsurancePayment> genericHealthHealthInsurancePaymentRepository,
             IGenericRepository<Customer> genericCustomerRepository,
             IGenericRepository<MasterCategory> genericMasterCategoryRepository,
-            ICustomerRepository customerRepository)
+            ICustomerRepository customerRepository,
+            IHDIService hdiService)
         {
             this.mapper = mapper;
             this.context = context;
@@ -44,6 +47,7 @@ namespace Payment.API.Controllers
             this.genericCustomerRepository = genericCustomerRepository;
             this.genericMasterCategoryRepository = genericMasterCategoryRepository;
             this.customerRepository = customerRepository;
+            this.hdiService = hdiService;
         }
 
         [HttpGet]
@@ -92,6 +96,10 @@ namespace Payment.API.Controllers
 
                 var payment = mapper.Map<HealthInsurancePayment>(request.payment);
                 healthInsuranaceOrder.payment = payment;
+
+                var orderRequest = new HealthInsuranceOrderRequest();
+
+                var createResult = hdiService.CreateOrder(orderRequest);
 
                 genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);
 

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Payment.Data.Entities;
 using Payment.Data.Repositories;
 using Payment.ExternalService;
+using Payment.ExternalService.HDInsurance;
 using System;
 
 namespace Payment.NetCoreExtension
@@ -36,5 +37,11 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IMasterCategoryRepository, MasterCatetoryRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
         }
+
+        public static void AddExternalService(this IServiceCollection services)
+        {
+            services.AddScoped<IHDIService, HDIService>();
+        }
+
     }
 }
