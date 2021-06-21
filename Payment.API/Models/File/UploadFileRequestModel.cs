@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Payment.API.Models
 {
-    public class ImportCustomerRequestModel
+    public class UploadFileRequestModel
     {
+        public string username { get; set; }
         public string fileTypeCode { get; set; }
         public IFormFile uploadFile { get; set; }
     }

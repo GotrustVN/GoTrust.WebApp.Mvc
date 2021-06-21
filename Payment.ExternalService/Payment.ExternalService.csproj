@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Payment.SharedUltilities\Payment.SharedUltilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HDInsurance\Response\" />
+  </ItemGroup>
+
 </Project>

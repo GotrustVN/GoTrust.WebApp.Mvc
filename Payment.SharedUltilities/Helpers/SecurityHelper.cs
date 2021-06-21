@@ -49,6 +49,19 @@ namespace Payment.SharedUltilities.Helpers
             }
             return sb.ToString();
         }
+
+        public static string MD5(string input)
+        {
+            String str = "";
+            Byte[] buffer = System.Text.Encoding.UTF8.GetBytes(input);
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            buffer = md5.ComputeHash(buffer);
+            foreach (Byte b in buffer)
+            {
+                str += b.ToString("X2");
+            }
+            return str;
+        }
         public static string Sha256(string data)
         {
             using (var sha256Hash = SHA256.Create())
@@ -60,6 +73,23 @@ namespace Payment.SharedUltilities.Helpers
                     builder.Append(t.ToString("x2"));
                 }
                 return builder.ToString();
+            }
+        }
+        public static string Sha256(string data, string secret)
+        {
+            secret = secret ?? "";
+            var encoding = new System.Text.ASCIIEncoding();
+            byte[] keyByte = encoding.GetBytes(secret);
+            byte[] messageBytes = encoding.GetBytes(data);
+            using (var hmacsha256 = new HMACSHA256(keyByte))
+            {
+                byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
+                string sbinary = "";
+                for (int i = 0; i < hashmessage.Length; i++)
+                {
+                    sbinary += hashmessage[i].ToString("x2");
+                }
+                return sbinary;
             }
         }
         public static string Encrypt(string code, string input)

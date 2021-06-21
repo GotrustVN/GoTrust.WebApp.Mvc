@@ -6,6 +6,25 @@ namespace Payment.ExternalService.HDInsurance
 {
     public class DeviceInfo
     {
+        public DeviceInfo(bool initDefault = false)
+        {
+            if (initDefault)
+            {
+                this.DeviceId = string.Empty;
+                this.DeviceCode = string.Empty;
+                this.IpPrivate = "123";
+                this.IpPublic = string.Empty;
+                this.X = string.Empty;
+                this.Y = string.Empty;
+                this.Province = string.Empty;
+                this.District = string.Empty;
+                this.Wards = string.Empty;
+                this.Address = string.Empty;
+                this.Environment = string.Empty;
+                this.Browser = string.Empty;
+                this.DeviceEnvironment = "WEB";
+            }
+        }
         public string DeviceId { get; set; }
         public string DeviceCode { get; set; }
         public string DeviceName { get; set; }

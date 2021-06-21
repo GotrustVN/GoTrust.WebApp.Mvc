@@ -64,6 +64,42 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("PaymentFailOrderStatusCode").Value;
             }
         }
+
+        public static string DefaultFileUploadDirectory
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("DefaultFileUploadDirectory").Value;
+            }
+        }
+
+        public static string DefaultImageUploadDirectory
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("DefaultImageUploadDirectory").Value;
+            }
+        }
+
+        public static string DefaultImportUploadDirectory
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("DefaultImportUploadDirectory").Value;
+            }
+        }
         #endregion
 
         #region VNPay
@@ -211,6 +247,17 @@ namespace Payment.SharedUltilities.Global
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 return builder.Build().GetSection("HDInsurance")
                     .GetSection("HDInsurance_Channel").Value;
+            }
+        }
+        public static string HDILongIn_ActionCode
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("HDInsurance")
+                    .GetSection("HDILongIn_ActionCode").Value;
             }
         }
         #endregion

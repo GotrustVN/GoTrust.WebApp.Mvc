@@ -33,6 +33,8 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IGenericRepository<HealthInsurancePayment>, GenericRepository<HealthInsurancePayment>>();
             services.AddScoped<IGenericRepository<HealthInsuranceDetail>, GenericRepository<HealthInsuranceDetail>>();
             services.AddScoped<IGenericRepository<MasterCategory>, GenericRepository<MasterCategory>>();
+            services.AddScoped<IGenericRepository<FileType>, GenericRepository<FileType>>();
+            services.AddScoped<IGenericRepository<FileImport>, GenericRepository<FileImport>>();
             services.AddScoped<IProvinceRepository, ProvinceRepository>();
             services.AddScoped<IMasterCategoryRepository, MasterCatetoryRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
