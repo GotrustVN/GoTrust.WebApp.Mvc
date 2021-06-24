@@ -3,12 +3,19 @@ using Payment.Data.Context;
 using Payment.Data.Entities;
 using Payment.Data.Extensions;
 using Payment.EpplusExtension.Extension;
+using Payment.SharedUltilities.Global;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ZXing;
+using ZXing.Common;
+using ZXing.QrCode.Internal;
+using ZXing.Rendering;
 
 namespace Payment.MiddleLayer.Processes
 {
@@ -190,6 +197,35 @@ namespace Payment.MiddleLayer.Processes
             }
 
             return true;
+        }
+
+        public static byte[] GenerateQRCode(string code, string logoPath = "")
+        {
+            var text = AppGlobal.DefaultCustomerDetailRequestUrl + code;
+
+            BarcodeWriter barcodeWriter = new BarcodeWriter();
+            EncodingOptions encodingOptions = new EncodingOptions()
+            {
+                Width = 300,
+                Height = 300,
+                Margin = 0,
+                PureBarcode = false,
+            };
+            encodingOptions.Hints.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+            barcodeWriter.Renderer = new BitmapRenderer();
+            barcodeWriter.Options = encodingOptions;
+            barcodeWriter.Format = BarcodeFormat.QR_CODE;
+            Bitmap bitmap = barcodeWriter.Write(text);
+            Bitmap logo = new Bitmap(logoPath);
+
+            Graphics graphics = Graphics.FromImage(bitmap);
+            graphics.DrawImage(logo, new Point((bitmap.Width - logo.Width) /2, (bitmap.Height - logo.Height) / 2));
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                bitmap.Save(stream, ImageFormat.Png);
+                return stream.ToArray();
+            }
         }
 
         public static void CachePropertyData(AppDbContext context)

@@ -6,7 +6,10 @@ using Payment.Data.Context;
 using Payment.Data.Entities;
 using Payment.Data.Extensions;
 using Payment.Data.Repositories;
+using Payment.MiddleLayer.Processes;
 using Payment.SharedModel.Common;
+using Payment.SharedUltilities.Global;
+using System;
 using System.Linq;
 
 namespace Payment.API.Controllers
@@ -226,6 +229,29 @@ namespace Payment.API.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpGet]
+        public ActionResult<CommonResponse> GetQR(string code)
+        {
+            if (!string.IsNullOrEmpty(code))
+            {
+                var customer = genericCustomerRepository.GetByID(code);
+
+                if (customer == null)
+                    return NotFound();
+
+                var response = new CommonResponse();
+
+                var qr = ProcessCustomerLib.GenerateQRCode(code, AppGlobal.DefaultLogoDirectory);
+
+                return response.SetData(Convert.ToBase64String(qr));
+            }
+            else
+            {
+                ModelState.AddModelError("CustomerCode", "Invalid customer code");
+                return BadRequest();
+            }
         }
     }
 }

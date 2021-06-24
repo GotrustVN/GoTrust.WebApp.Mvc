@@ -100,6 +100,30 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("DefaultImportUploadDirectory").Value;
             }
         }
+
+        public static string DefaultCustomerDetailRequestUrl
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("DefaultCustomerDetailRequestUrl").Value;
+            }
+        }
+
+        public static string DefaultLogoDirectory
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("DefaultLogoDirectory").Value;
+            }
+        }
         #endregion
 
         #region VNPay

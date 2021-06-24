@@ -26,6 +26,7 @@ namespace Payment.Data.Entities
         public string email { get; set; }
         public string fax { get; set; }
         public string taxCode { get; set; }
+        public string qrCode { get; set; }
         public string note { get; set; }
     }
 }
