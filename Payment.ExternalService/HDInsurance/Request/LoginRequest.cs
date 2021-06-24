@@ -44,7 +44,6 @@ namespace Payment.ExternalService.HDInsurance
             this.Action = new ActionInfo("HDI_API_LOGIN", true);
             this.Data = new LoginData()
             {
-                //Channel = AppGlobal.HDInsurance_Channel,
                 UserName = AppGlobal.HDInsurance_UserName,
                 Password = AppGlobal.HDInsurance_Password
             };

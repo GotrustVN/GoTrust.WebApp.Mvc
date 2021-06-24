@@ -99,7 +99,7 @@ namespace Payment.API.Controllers
 
                 var orderRequest = new HealthInsuranceOrderRequest();
 
-                var createResult = hdiService.CreateOrder(orderRequest);
+                var createResult = hdiService.CreateOrder(orderRequest, out string errorMessage);
 
                 genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);
 

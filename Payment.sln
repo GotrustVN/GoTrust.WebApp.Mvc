@@ -23,9 +23,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.Client", "Payment.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.NetCoreExtension", "Payment.NetCoreExtension\Payment.NetCoreExtension.csproj", "{ECF80E7E-0A03-4210-9575-68DF084B3F7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.EpplusExtension", "Payment.EpplusExtension\Payment.EpplusExtension.csproj", "{18C58274-3B8E-440E-B7CF-724BE78D6368}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.EpplusExtension", "Payment.EpplusExtension\Payment.EpplusExtension.csproj", "{18C58274-3B8E-440E-B7CF-724BE78D6368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.MiddleLayer", "Payment.MiddleLayer\Payment.MiddleLayer.csproj", "{6BA2BD48-0F18-4D30-A4CF-0A95085EAEB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.MiddleLayer", "Payment.MiddleLayer\Payment.MiddleLayer.csproj", "{6BA2BD48-0F18-4D30-A4CF-0A95085EAEB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HDI.MVC", "HDI.MVC\HDI.MVC.csproj", "{DF6C4F0A-C057-4489-9D79-908A57704125}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.UnitTest", "Payment.UnitTest\Payment.UnitTest.csproj", "{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +85,14 @@ Global
 		{6BA2BD48-0F18-4D30-A4CF-0A95085EAEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BA2BD48-0F18-4D30-A4CF-0A95085EAEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BA2BD48-0F18-4D30-A4CF-0A95085EAEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF6C4F0A-C057-4489-9D79-908A57704125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF6C4F0A-C057-4489-9D79-908A57704125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF6C4F0A-C057-4489-9D79-908A57704125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF6C4F0A-C057-4489-9D79-908A57704125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

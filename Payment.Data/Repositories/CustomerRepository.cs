@@ -11,7 +11,8 @@ namespace Payment.Data.Repositories
 {
     public interface ICustomerRepository
     {
-        public bool IsValidCustomerCode(string code, out Customer customer);
+        bool IsValidCustomerCode(string code, out Customer customer);
+        Customer GetById(string id, bool includeAll = false);
     }
     public class CustomerRepository : ICustomerRepository
     {
@@ -20,6 +21,24 @@ namespace Payment.Data.Repositories
         public CustomerRepository(AppDbContext context)
         {
             this.context = context;
+        }
+
+        public Customer GetById(string id, bool includeAll = false)
+        {
+            if (includeAll)
+            {
+                return context.Customer
+                    .Include(x => x.type)
+                    .Include(x => x.gender)
+                    .Include(x => x.province)
+                    .Include(x => x.district)
+                    .Include(x => x.ward)
+                    .FirstOrDefault(x => x.code == id);
+            }
+            else
+            {
+                return context.Customer.Find(id);
+            }
         }
 
         public bool IsValidCustomerCode(string code, out Customer customer)

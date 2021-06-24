@@ -1,0 +1,117 @@
+﻿@model AddressDetailViewModel
+
+<script>
+
+    $(document).ready(() => {
+        $('.select').select2({
+            theme: "bootstrap",
+            placeholder: '-- Root --',
+            allowClear: true
+        });
+
+        $("#province").on('change', () =>
+        {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetDistricts","Province")',
+                data: {
+                    provinceCode: $("#province").val(),
+                },
+                success: (res) => {
+                    $('#district').empty();
+                    $('#district').select2({
+                        theme: "bootstrap",
+                        placeholder: '-- Root --',
+                        allowClear: true,
+                        data: res,
+                    });
+                    $("#district").trigger('change');
+                }
+            })
+        })
+
+        $("#district").on('change', () =>
+        {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetWards","District")',
+                data: {
+                    districtCode: $("#district").val(),
+                },
+                success: (res) => {
+                    $('#ward').empty();
+                    $('#ward').select2({
+                        theme: "bootstrap",
+                        placeholder: '-- Root --',
+                        allowClear: true,
+                        data: res
+                    });
+                    $("#additionalAddress").trigger('change');
+                }
+            })
+        })
+
+        $("#additionalAddress").on('change', () => {
+            let province = $("#province").select2('data')[0].text;
+            let district = $("#district").select2('data')[0].text;
+            let ward = $("#ward").select2('data')[0].text;
+            let address = $("#additionalAddress").val();
+            let fullAddress = address + ', ' + ward + ', ' + district + ', ' + province;
+            $("#resultAddress").val(fullAddress);
+        })
+
+    });
+
+    var showFunctionCallback = null;
+    var hideFunctionCallback = null;
+    var confirmFunctionCallback = null;
+
+    Init = (closeFunctionCallback, confirmFunctionCallback) => {
+        $("#address-modal").modal("show");
+        $("#address-modal").on('hidden.bs.modal', closeFunctionCallback);
+        $("#ok-button").on('click', confirmFunctionCallback);
+    }
+
+</script>
+
+<div class="modal fade" id="address-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Địa chỉ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="font-weight-bold">Tỉnh/Thành phố</label>
+                    <select asp-for="provinceCode" class="select form-control" id="province"
+                            asp-items="@(new SelectList(Model.provinces,"id","text"))"></select>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Quận/Huyện</label>
+                    <select asp-for="districtCode" class="select form-control" id="district"
+                            asp-items="@(new SelectList(Model.districts,"id","text"))"></select>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Phường/Xã</label>
+                    <select asp-for="wardCode" class="select form-control" id="ward"
+                            asp-items="@(new SelectList(Model.wards,"id","text"))"></select>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Số nhà/Đường/Ấp</label>
+                    <input class="form-control" asp-for="address" id="additionalAddress"/>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Địa chỉ</label>
+                    <input readonly class="form-control" asp-for="fullAddress" id="resultAddress" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                <button type="button" id="ok-button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

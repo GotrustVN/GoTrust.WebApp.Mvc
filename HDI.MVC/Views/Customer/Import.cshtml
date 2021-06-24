@@ -1,0 +1,57 @@
+﻿@model CustomerImportViewModel
+
+<div class="row w-100 m-0">
+    <form asp-action="Import" asp-controller="Customer" class="w-100" enctype="multipart/form-data">
+        <input asp-for="fileTypeCode" type="hidden" value="CI"/>
+        <div class="card w-100">
+            <div class="card-header">
+                <h3 class="card-title">Import dữ liệu khách hàng</h3>
+            </div>
+            <div class="card-body px-0">
+                <div class="row w-100 m-0">
+                    <div class="col-md-4">
+                        <label><b>Bước 1: Download mẫu file <a href="~/template/ImportKhachHang.xlsx">tại đây</a></b></label>
+                    </div>
+                </div>
+                <div class="row w-100 m-0 mt-1">
+                    <div class="col-md-4">
+                        <label><b>Bước 2: Chọn file dữ liệu phù hợp</b></label>
+                        <div class="custom-file" lang="es">
+                            <input type="file" class="custom-file-input" id="uploadFile" asp-for="uploadFile" aria-describedby="fileHelp">
+                            <label class="custom-file-label" for="uploadFile">
+                                Select file...
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-12 col-md-9"></div>
+                    <div class="col-4 col-md-1">
+                        <a asp-action="Index" type="button" class="btn btn-dark w-100">
+                            <i class="far fa-window-close"></i>
+                        </a>
+                    </div>
+                    <div class="col-4 col-md-1">
+                        <a asp-action="Create" class="btn btn-warning w-100 text-white">
+                            <i class="fas fa-sync"></i>
+                        </a>
+                    </div>
+                    <div class="col-4 col-md-1">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>

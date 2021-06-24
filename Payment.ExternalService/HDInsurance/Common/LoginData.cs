@@ -6,7 +6,6 @@ namespace Payment.ExternalService.HDInsurance
 {
     public class LoginData
     {
-        //public string Channel { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
     }

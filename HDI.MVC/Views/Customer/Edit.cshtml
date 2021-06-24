@@ -1,0 +1,196 @@
+﻿@{
+    ViewData["Title"] = "Cập nhật khách hàng";
+}
+
+@model CustomerEditViewModel
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="~/css/select2-theme-bootstrap4/dist/select2-bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+<div class="row w-100 m-0">
+    <form asp-action="Create" asp-controller="Customer" class="w-100">
+        <input type="hidden" asp-for="code" />
+        <div class="card w-100">
+            <div class="card-header">
+                <h3 class="card-title">Thông tin khách hàng</h3>
+            </div>
+            <div class="card-body px-0">
+                <div class="row w-100 m-0">
+                    <div class="col-md-1">
+                        <label>Họ và tên</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="name" />
+                    </div>
+                    <div class="col-md-1">
+                        <label>Ngày sinh</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="dateOfBirth" type="date"/>
+                    </div>
+                    <div class="col-md-1">
+                        <label>Giới tính</label>
+                    </div>
+                    <div class="col-md-3">
+                        <select asp-for="genderCode" class="select form-control"
+                                asp-items="@(new SelectList(Model.genders,"code","name"))"></select>
+                    </div>
+                </div>
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <div class="col-md-1">
+                        <label>Điện thoại</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="phone" />
+                    </div>
+                    <div class="col-md-1">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="email" />
+                    </div>
+                    <div class="col-md-1">
+                        <label>Fax</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="fax" />
+                    </div>
+                </div>
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <div class="col-md-1">
+                        <label>CMND/CCCD</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="identityNumber" />
+                    </div>
+                    <div class="col-md-1">
+                        <label>Ngày cấp</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="identityDate" type="date" asp-format="{0:yyyy-MM-dd}" />
+                    </div>
+                    <div class="col-md-1">
+                        <label>Nơi cấp</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="identityPlace" />
+                    </div>
+                </div>
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <div class="col-md-1">
+                        <label>Loại</label>
+                    </div>
+                    <div class="col-md-3">
+                        <select asp-for="typeCode" class="select form-control"
+                                asp-items="@(new SelectList(Model.customerTypes,"code","name"))"></select>
+                    </div>
+                    <div class="col-md-1">
+                        <label>MS thuế</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="taxCode" />
+                    </div>
+                    <div class="col-md-1">
+                        <label>Dân tộc</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="nationality" />
+                    </div>
+                </div>
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <input type="hidden" asp-for="provinceCode" />
+                    <input type="hidden" asp-for="districtCode" />
+                    <input type="hidden" asp-for="wardCode" />
+                    <input type="hidden" asp-for="address" />
+                    <div class="col-md-1">
+                        <label>Địa chỉ</label>
+                    </div>
+                    <div class="col-md-11">
+                        <div class="input-group">
+                            <input readonly class="form-control" asp-for="fullAddress" />
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-success text-white" id="basic-addon2" onclick="onEditAddress()">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <div class="col-md-1">
+                        <label>Ghi chú</label>
+                    </div>
+                    <div class="col-md-11">
+                        <input rows="4" class="form-control" asp-for="note" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-12 col-md-9"></div>
+                    <div class="col-4 col-md-1">
+                        <a asp-action="Index" type="button" class="btn btn-dark w-100">
+                            <i class="far fa-window-close"></i>
+                        </a>
+                    </div>
+                    <div class="col-4 col-md-1">
+                        <a asp-action="Create" class="btn btn-warning w-100 text-white">
+                            <i class="fas fa-sync"></i>
+                        </a>
+                    </div>
+                    <div class="col-4 col-md-1">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="modal-area-content"></div>
+<script>
+    $(document).ready(() => {
+        $('.select').select2({
+            theme: "bootstrap",
+            placeholder: '-- Root --',
+            allowClear: true
+        });
+    })
+
+    onEditAddress = () => {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Address","Common")',
+            data: {
+                provinceCode: $("#provinceCode").val(),
+                districtCode: $("#districtCode").val(),
+                wardCode: $("#wardCode").val(),
+                address: $("#address").val(),
+                fullAddress: $("#fullAddress").val(),
+            },
+            success: (res) => {
+                $("#modal-area-content").empty();
+                $("#modal-area-content").html(res);
+            }
+        }).done(() => {
+            Init(null, () =>
+            {
+                $('#provinceCode').val($('#province').val());
+                $('#districtCode').val($('#district').val());
+                $('#wardCode').val($('#ward').val());
+                $('#address').val($('#additionalAddress').val());
+                $('#fullAddress').val($('#resultAddress').val());
+                $("#address-modal").modal("hide");
+            });
+        })
+    }
+</script>
