@@ -18,6 +18,7 @@ namespace Payment.Data.Entities
         public string customerProvince { get; set; }
         public string customerDistrict { get; set; }
         public string customerWard { get; set; }
+        public string customerAddress { get; set; }
         public string customerFullAddress { get; set; }
         public string customerNationality { get; set; }
         public string customerIdentityNumber { get; set; }
@@ -30,6 +31,7 @@ namespace Payment.Data.Entities
         public string productCode { get; set; }
         public string packCode { get; set; }
         public MasterCategory relationship { get; set; }
+        public string region { get; set; }
         public DateTime effectiveDate { get; set; }
         public DateTime expirationDate { get; set; }
         public decimal fees { get; set; }

@@ -1,0 +1,104 @@
+﻿@model HealthInsuranceDetailViewModel
+
+<script>
+
+    $(document).ready(() => {
+        $('.select').select2({
+            theme: "bootstrap",
+            placeholder: '-- Root --',
+            allowClear: true
+        });
+    });
+
+    var showFunctionCallback = null;
+    var hideFunctionCallback = null;
+    var confirmFunctionCallback = null;
+
+    Init = (closeFunctionCallback, confirmFunctionCallback) => {
+        $("#detail-modal").modal("show");
+        $("#detail-modal").on('hidden.bs.modal', closeFunctionCallback);
+        $("#ok-button").on('click', confirmFunctionCallback);
+    }
+
+</script>
+
+<div class="modal fade" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Sản phẩm bảo hiểm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row m-0 w-100">
+                    <div class="col-md-6 px-0 pr-md-2 pl-md-0">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Đối tượng</label>
+                            <select asp-for="relationshipCode" class="select form-control"
+                                    asp-items="@(new SelectList(Model.relationships,"id","text"))"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 px-0 pl-md-2 pr-md-0">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Sản phẩm</label>
+                            <select asp-for="productCode" class="select form-control"
+                                    asp-items="@(new SelectList(Model.products,"id","text"))"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Gói</label>
+                    <input class="form-control" asp-for="packCode" />
+                </div>
+                <div class="row m-0 w-100">
+                    <div class="col-md-6 px-0 pr-md-2 pl-md-0">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Hiệu lực từ</label>
+                            <input asp-for="effectiveDate" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 px-0 pl-md-2 pr-md-0">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Hiệu lực đến</label>
+                            <input asp-for="expirationDate" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-0 w-100">
+                    <div class="col-md-4 px-0 pr-md-2 pl-md-0">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Đơn giá</label>
+                            <input asp-for="fees" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 px-0 px-md-2">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Giảm trừ</label>
+                            <input asp-for="discount" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 px-0 pl-md-2 pr-md-0">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Tạm tính</label>
+                            <input asp-for="amount" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">VAT</label>
+                    <input asp-for="vat" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold">Thành tiền</label>
+                    <input asp-for="totalAmount" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                <button type="button" id="ok-button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

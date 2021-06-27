@@ -14,14 +14,17 @@ namespace HDI.MVC.Controllers
         private readonly IGenericRepository<Province> genericProvinceRepository;
         private readonly IProvinceRepository provinceRepository;
         private readonly IDistrictRepository districtRepository;
+        private readonly IMasterCategoryRepository masterCategoryRepository;
 
         public CommonController(IGenericRepository<Province> genericProvinceRepository,
             IProvinceRepository provinceRepository,
-            IDistrictRepository districtRepository)
+            IDistrictRepository districtRepository,
+            IMasterCategoryRepository masterCategoryRepository)
         {
             this.genericProvinceRepository = genericProvinceRepository;
             this.provinceRepository = provinceRepository;
             this.districtRepository = districtRepository;
+            this.masterCategoryRepository = masterCategoryRepository;
         }
 
         public IActionResult Index()
@@ -60,5 +63,6 @@ namespace HDI.MVC.Controllers
 
             return PartialView(model);
         }
+
     }
 }

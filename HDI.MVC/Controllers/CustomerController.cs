@@ -67,6 +67,7 @@ namespace HDI.MVC.Controllers
             this.notyf = notyf;
         }
 
+        [HttpGet]
         public IActionResult GetAll()
         {
             var data = genericCustomerRepository.Get(
@@ -74,11 +75,34 @@ namespace HDI.MVC.Controllers
             return Json(new CommonResponse().SetData(data));
         }
 
+        [HttpGet]
+        public IActionResult GetSelectViewItem(string code)
+        {
+            var data = genericCustomerRepository.Get(x => x.code.Contains(code))
+                .Select(x => new CustomerSelectViewModel()
+                {
+                    id = x.code,
+                    text = x.code + " - " + x.name
+                });
+            return Json(data);
+        }
+
+        [HttpGet]
+        public IActionResult GetCustomer(string code)
+        {
+            var customer = customerRepository.GetById(code, true);
+            if(customer != null)
+                return Json(customer);
+            return NotFound();
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Detail(string code)
         {
             var customer = customerRepository.GetById(code, true);
@@ -150,12 +174,13 @@ namespace HDI.MVC.Controllers
                 }
 
                 genericCustomerRepository.Insert(customer);
+                string customerCode = customer.code;
                 var result = context.SaveChanges();
 
                 if(result > 0)
                 {
                     notyf.Success("Thêm mới khách hàng thành công!");
-                    return RedirectToAction("Edit", "Customer", customer.code);
+                    return RedirectToAction("Edit", "Customer", new { code = customerCode });
                 }
                 else
                 {

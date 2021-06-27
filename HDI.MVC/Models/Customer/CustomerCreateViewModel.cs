@@ -12,7 +12,6 @@ namespace HDI.MVC.Models
         public string name { get; set; }
         public string typeCode { get; set; }
         [BindProperty, DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime dateOfBirth { get; set; }
         public string genderCode { get; set; }
         public string provinceCode { get; set; }
@@ -23,7 +22,6 @@ namespace HDI.MVC.Models
         public string identityNumber { get; set; }
         public string identityPlace { get; set; }
         [BindProperty, DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime identityDate { get; set; }
         public string phone { get; set; }
         public string email { get; set; }

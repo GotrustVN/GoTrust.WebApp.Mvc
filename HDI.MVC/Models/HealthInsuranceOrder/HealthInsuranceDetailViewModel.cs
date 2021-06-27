@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Payment.API.Models
+namespace HDI.MVC.Models
 {
-    public class HealthInsuranceDetailCreateRequestModel
+    public class HealthInsuranceDetailViewModel
     {
         public string customerCode { get; set; }
         public string customerName { get; set; }
@@ -32,10 +32,16 @@ namespace Payment.API.Models
         public DateTime effectiveDate { get; set; }
         public DateTime expirationDate { get; set; }
         public decimal fees { get; set; }
+        public decimal discount { get; set; }
         public decimal amount { get; set; }
         public decimal totalDiscount { get; set; }
         public decimal totalAdd { get; set; }
         public decimal vat { get; set; }
         public decimal totalAmount { get; set; }
+
+        #region select data
+        public IEnumerable<RelationshipSelectViewModel> relationships { get; set; } = new List<RelationshipSelectViewModel>();
+        public IEnumerable<ProductSelectViewModel> products { get; set; } = new List<ProductSelectViewModel>();
+        #endregion
     }
 }

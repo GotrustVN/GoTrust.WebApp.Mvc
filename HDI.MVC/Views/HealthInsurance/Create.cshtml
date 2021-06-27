@@ -4,4 +4,461 @@
 
 @model HealthInsuranceOrderCreateViewModel
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link href="~/css/select2-theme-bootstrap4/dist/select2-bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
+@section Scripts
+{
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var grid = $('#grid').dataTable({
+                ordering: true,
+                searching: true,
+                paging: true,
+                info: false,
+                responsive: true,
+                language: {
+                    paginate: {
+                        previous: "Trước",
+                        next: "Tiếp",
+                        first: "Đầu",
+                        last: "Cuối"
+                    },
+                    emptyTable: "Không có dữ liệu",
+                    lengthMenu: "Số lượng của trang _MENU_",
+                    search: "Tìm kiếm:",
+                },
+                columns: [
+                    { data: "productCode", defaultContent: '' },
+                    { data: "relationshipCode", defaultContent: '' },
+                    { data: "packCode", defaultContent: '' },
+                    { data: "effectiveDate", defaultContent: '' },
+                    { data: "expirationDate", defaultContent: '' },
+                    { data: "fee", defaultContent: 0 },
+                    { data: "discount", defaultContent: 0 },
+                    { data: "amount", defaultContent: 0 },
+                    { data: "vat", defaultContent: 0 },
+                    { data: "totalAmount", defaultContent: 0 },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            return "<div class='d-flex'><button type='button' onclick='onDelete()' class='btn btn-danger btn-delete text-white d-inline-block'><i class='fas fa-trash-alt'></i></button>" + 
+                            "<button type='button' onclick='onEdit()' class='btn btn-success ml-1 text-white d-inline-block'><i class='fas fa-pen'></i></button></div>"
+                        }
+                    }
+                ],
+                createdRow:  (nRow, aData, iDataIndex) => {
+                    $(nRow).attr('id', 'row' + iDataIndex);
+                }, 
+            });
+        });
+
+
+    </script>
+}
+
+<div class="row w-100 m-0">
+    <form class="w-100">
+        <input type="hidden" asp-for="categoryCode" />
+        <div class="card w-100">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title">Thông tin khách hàng</h3>
+            </div>
+            <div class="card-body px-0">
+                <div class="row w-100 m-0">
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Mã KH</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerCode" />
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Họ và tên</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerName" />
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Ngày sinh</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerDateOfBirth" />
+                    </div>
+                </div>
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Điện thoại</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerPhone" />
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Email</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerEmail" />
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Fax</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerFax" />
+                    </div>
+                </div>
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">CMND/CCCD</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerIdentityNumber" />
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Ngày cấp</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerIdentityDate" />
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Nơi cấp</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerIdentityPlace" />
+                    </div>
+                </div>
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Loại</label>
+                    </div>
+                    <div class="col-md-3">
+                        <select asp-for="buyerType" class="select form-control"
+                                asp-items="@(new SelectList(Model.customerTypes,"code","name"))"></select>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Giới tính</label>
+                    </div>
+                    <div class="col-md-3">
+                        <select asp-for="buyerGender" class="select form-control"
+                                asp-items="@(new SelectList(Model.genders,"code","name"))"></select>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">MS thuế</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerTaxCode" />
+                    </div>
+                </div>
+
+
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <input type="hidden" asp-for="buyerProvince" />
+                    <input type="hidden" asp-for="buyerDistrict" />
+                    <input type="hidden" asp-for="buyerWard" />
+                    <input type="hidden" asp-for="buyerAddress" />
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Dân tộc</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="buyerNationality" />
+                    </div>
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Địa chỉ</label>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input readonly class="form-control" asp-for="buyerFullAddress" />
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-success text-white" id="basic-addon2" onclick="onEditAddress()">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card w-100 mt-1">
+            <div class="card-header">
+                <div class="row w-100 m-0">
+                    <div class="col-12 col-md-11">
+                        <h3 class="card-title m-0">Sản phẩm bảo hiểm</h3>
+                    </div>
+                    <div class="col-3 col-md-1">
+                        <button type="button" class="btn btn-success w-100 text-white" onclick="onAddOrderDetail()">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="grid" class="table table-striped table-bordered w-100">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Loại</th>
+                            <th>Gói</th>
+                            <th>Từ ngày</th>
+                            <th>Đến ngày</th>
+                            <th>Phí</th>
+                            <th>Giảm trừ</th>
+                            <th>Tạm tính</th>
+                            <th>VAT</th>
+                            <th>Thành tiền</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="card w-100 mt-1">
+            <div class="card-header bg-success text-white">
+                <h3 class="card-title">Phương thức thanh toán</h3>
+            </div>
+            <div class="card-body">
+                <div class="row w-100 m-0 mt-0 mt-md-1">
+                    <div class="col-md-1">
+                        <label class="font-weight-bold">Thanh toán</label>
+                    </div>
+                    <div class="col-md-11">
+                        <select asp-for="payment.paymentType" id="paymentType" class="select form-control"
+                                asp-items="@(new SelectList(Model.payments,"id","text"))"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-12 col-md-9"></div>
+                    <div class="col-4 col-md-1">
+                        <a asp-action="Index" asp-controller="Home" type="button" class="btn btn-dark w-100">
+                            <i class="far fa-window-close"></i>
+                        </a>
+                    </div>
+                    <div class="col-4 col-md-1">
+                        <a asp-action="Create" class="btn btn-warning w-100 text-white">
+                            <i class="fas fa-sync"></i>
+                        </a>
+                    </div>
+                    <div class="col-4 col-md-1">
+                        <button type="button" onclick="onSave()" class="btn btn-primary w-100">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="modal-area-content"></div>
+<script>
+    $(document).ready(() => {
+        $('.select').select2({
+            theme: "bootstrap",
+            placeholder: '-- Root --',
+            allowClear: true
+        });
+
+        $('#buyerCode').autocomplete({
+            delay: 300,
+            source: (request, response) => {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSelectViewItem", "Customer")',
+                    data: {
+                        code: request.term
+                    },
+                    dataType: 'json',
+                    success: (res) => {
+                        response($.map(res, (item) => {
+                            return {
+                                label: item.text,
+                                value: item.id
+                            };
+                        }))
+                    }
+                })
+            },
+            select: (e, i) => {
+                $("#buyerCode").text(i.item.value);
+                $("#buyerCode").trigger('change');
+            },
+            minLength: 3
+        })
+
+        $('#buyerCode').on('change', () => {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetCustomer","Customer")',
+                data: {
+                    code: $('#buyerCode').val()
+                },
+                success: (res) => {
+                    $('#buyerName').val(res.name);
+                    $('#buyerDateOfBirth').val(res.dateOfBirth.split('T')[0]);
+                    $('#buyerPhone').val(res.phone);
+                    $('#buyerEmail').val(res.email);
+                    $('#buyerFax').val(res.fax);
+                    $('#buyerIdentityNumber').val(res.identityNumber);
+                    $('#buyerIdentityPlace').val(res.identityPlace);
+                    $('#buyerIdentityDate').val(res.identityDate.split('T')[0]);
+                    $('#buyerTaxCode').val(res.taxCode);
+                    $('#buyerNationality').val(res.nationality);
+                    $('#buyerType').val(res.type.code).change();
+                    $('#buyerGender').val(res.gender.code).change();
+                    $('#buyerProvince').val(res.province.code);
+                    $('#buyerDistrict').val(res.district.code);
+                    $('#buyerWard').val(res.ward.code);
+                    $('#buyerAddress').val(res.address);
+                    $('#buyerFullAddress').val(res.fullAddress);
+                }
+            });
+        });
+
+    })
+
+    onEditAddress = () => {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Address","Common")',
+            data: {
+                provinceCode: $("#buyerProvince").val(),
+                districtCode: $("#buyerDistrict").val(),
+                wardCode: $("#buyerWard").val(),
+                address: $("#buyerAddress").val(),
+                fullAddress: $("#buyerFullAddress").val(),
+            },
+            success: (res) => {
+                $("#modal-area-content").empty();
+                $("#modal-area-content").html(res);
+            }
+        }).done(() => {
+            Init(null, () =>
+            {
+                $('#provinceCode').val($('#province').val());
+                $('#districtCode').val($('#district').val());
+                $('#wardCode').val($('#ward').val());
+                $('#address').val($('#additionalAddress').val());
+                $('#fullAddress').val($('#resultAddress').val());
+                $("#address-modal").modal("hide");
+            });
+        })
+    }
+
+    onAddOrderDetail = () => {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("DetailPartial")',
+            success: (res) => {
+                $('#modal-area-content').empty();
+                $('#modal-area-content').html(res);
+            }
+        }).done(() => {
+            Init(null, () => {
+                let grid = $('#grid').DataTable();
+
+                grid.row.add({
+                    productCode: $('#productCode').select2('data')[0].text,
+                    relationshipCode: $('#relationshipCode').select2('data')[0].text,
+                    packCode: $('#packCode').val(),
+                    effectiveDate: $('#effectiveDate').val().split('T')[0],
+                    expirationDate: $('#expirationDate').val().split('T')[0],
+                    fees: $('#fees').val(),
+                    amount: $('#amount').val(),
+                    vat: $('#vat').val(),
+                    totalAmount: $('#totalAmount').val(),
+                    discount: $('#discount').val()
+                }).draw(true).node();
+
+                $("#detail-modal").modal("hide");
+            });
+        });
+    }
+
+    onDelete = () => {
+        var grid = $('#grid').DataTable();
+        var row = $(this).closest('tr');
+        grid.row(row).remove().draw();
+    }
+
+    onSave = () => {
+        var gridData = $('#grid').DataTable().rows().data();
+        let details = gridData.toArray().map((item) => {
+            return {
+                customerCode: $("#buyerCode").val(),
+                customerName: $("#buyerName").val(),
+                customerType: $("#buyerType").val(),
+                customerDateOfBirth: $("#buyerDateOfBirth").val(),
+                customerGender: $("#buyerGender").val(),
+                customerProvince: $("#buyerProvince").val(),
+                customerDistrict: $("#buyerDistrict").val(),
+                customerWard: $("#buyerWard").val(),
+                customerAddress: $("#buyerAddress").val(),
+                customerFullAddress: $("#buyerFullAddress").val(),
+                customerNationality: $("#buyerNationality").val(),
+                customerIdentityNumber: $("#buyerIdentityNumber").val(),
+                customerIdentityPlace: $("#buyerIdentityPlace").val(),
+                customerIdentityDate: $("#buyerIdentityDate").val(),
+                customerPhone: $("#buyerPhone").val(),
+                customerEmail: $("#buyerEmail").val(),
+                customerFax: $("#buyerFax").val(),
+                customerTaxCode: $("#buyerTaxCode").val(),
+                productCode: 'TAI_NAN',
+                packCode: item.packCode,
+                relationshipCode: 'BAN_THAN',
+                region: 'VN',
+                fee: item.fees,
+                amount: item.amount,
+                vat: item.vat,
+                totalAmount: item.totalAmount
+            }
+        });
+
+        var data = {
+            categoryCode: $("#categoryCode").val(),
+            productCode: $("#productCode").val(),
+            buyerCode: $("#buyerCode").val(),
+            buyerName: $("#buyerName").val(),
+            buyerType: $("#buyerType").val(),
+            buyerDateOfBirth: $("#buyerDateOfBirth").val(),
+            buyerGender: $("#buyerGender").val(),
+            buyerProvince: $("#buyerProvince").val(),
+            buyerDistrict: $("#buyerDistrict").val(),
+            buyerWard: $("#buyerWard").val(),
+            buyerAddress: $("#buyerAddress").val(),
+            buyerFullAddress: $("#buyerFullAddress").val(),
+            buyerNationality: $("#buyerNationality").val(),
+            buyerIdentityNumber: $("#buyerIdentityNumber").val(),
+            buyerIdentityPlace: $("#buyerIdentityPlace").val(),
+            buyerIdentityDate: $("#buyerIdentityDate").val(),
+            buyerPhone: $("#buyerPhone").val(),
+            buyerEmail: $("#buyerEmail").val(),
+            buyerFax: $("#buyerFax").val(),
+            buyerTaxCode: $("#buyerTaxCode").val(),
+            details: details,
+            payment: {
+                paymentType: $("#paymentType").val(),
+                paymentDate: new Date()
+            }
+        };
+        console.log(data);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Create","HealthInsurance")',
+            data: data,
+            success: (res) => {
+
+            }
+        });
+    }
+</script>

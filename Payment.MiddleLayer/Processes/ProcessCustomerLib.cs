@@ -211,7 +211,7 @@ namespace Payment.MiddleLayer.Processes
                 Margin = 0,
                 PureBarcode = false,
             };
-            encodingOptions.Hints.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+            //encodingOptions.Hints.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.);
             barcodeWriter.Renderer = new BitmapRenderer();
             barcodeWriter.Options = encodingOptions;
             barcodeWriter.Format = BarcodeFormat.QR_CODE;

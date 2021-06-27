@@ -41,7 +41,9 @@ namespace Payment.ExternalService.HDInsurance
                 var url = "OpenApi/v1/mask/insur/create_pay";
                 client.BaseAddress = new Uri(AppGlobal.HDInsurance_Url);
                 client.DefaultRequestHeaders.Add("Token", HDIGlobal.RequestToken);
-                
+
+                request.CreateSignature();
+
                 var httpContent = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
                 var response = client.PostAsync(url, httpContent).Result;
 

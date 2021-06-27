@@ -97,9 +97,30 @@ namespace Payment.API.Controllers
                 var payment = mapper.Map<HealthInsurancePayment>(request.payment);
                 healthInsuranaceOrder.payment = payment;
 
-                var orderRequest = new HealthInsuranceOrderRequest();
+                var orderRequest = mapper.Map<HealthInsuranceOrderRequest>(healthInsuranaceOrder);
+                orderRequest.SetDefaultData();
+
+                orderRequest.Data.PRODUCT_CODE = healthInsuranaceOrder.productCode;
+                orderRequest.Data.CATEGORY = healthInsuranaceOrder.category.code;
+
+                orderRequest.Payment = new PaymentInfo()
+                {
+                    PAYMENT_TYPE = healthInsuranaceOrder.payment.paymentType
+                };
+
+                foreach(var detail in healthInsuranaceOrder.Details)
+                {
+                    var healthInsurance = mapper.Map<HealthInsurance>(detail);
+                    orderRequest.Data.HEALTH_INSUR.Add(healthInsurance);
+                }
 
                 var createResult = hdiService.CreateOrder(orderRequest, out string errorMessage);
+
+                if (!createResult)
+                {
+                    ModelState.AddModelError("HDI", errorMessage);
+                    return BadRequest(ModelState);
+                }
 
                 genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);
 

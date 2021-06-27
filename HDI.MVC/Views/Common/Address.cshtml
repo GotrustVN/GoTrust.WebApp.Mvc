@@ -26,6 +26,7 @@
                         data: res,
                     });
                     $("#district").trigger('change');
+                    UpdateAddress();
                 }
             })
         })
@@ -46,21 +47,30 @@
                         allowClear: true,
                         data: res
                     });
+                    UpdateAddress();
                     $("#additionalAddress").trigger('change');
                 }
             })
         })
 
+        $("#ward").on('change', () => {
+            UpdateAddress();
+        })
+
         $("#additionalAddress").on('change', () => {
-            let province = $("#province").select2('data')[0].text;
-            let district = $("#district").select2('data')[0].text;
-            let ward = $("#ward").select2('data')[0].text;
-            let address = $("#additionalAddress").val();
-            let fullAddress = address + ', ' + ward + ', ' + district + ', ' + province;
-            $("#resultAddress").val(fullAddress);
+            UpdateAddress();
         })
 
     });
+
+    UpdateAddress = () => {
+        let province = $("#province").select2('data')[0].text;
+        let district = $("#district").select2('data')[0].text;
+        let ward = $("#ward").select2('data')[0].text;
+        let address = $("#additionalAddress").val();
+        let fullAddress = address + ', ' + ward + ', ' + district + ', ' + province;
+        $("#resultAddress").val(fullAddress);
+    }
 
     var showFunctionCallback = null;
     var hideFunctionCallback = null;

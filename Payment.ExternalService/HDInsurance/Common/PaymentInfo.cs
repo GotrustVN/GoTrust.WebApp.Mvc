@@ -6,6 +6,6 @@ namespace Payment.ExternalService.HDInsurance
 {
     public class PaymentInfo
     {
-        public string Payment_Type { get; set; }
+        public string PAYMENT_TYPE { get; set; }
     }
 }

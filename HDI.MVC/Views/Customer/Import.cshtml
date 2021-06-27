@@ -1,8 +1,12 @@
-﻿@model CustomerImportViewModel
+﻿@{
+    ViewData["Title"] = "Import dữ liệu khách hàng";
+}
+
+@model CustomerImportViewModel
 
 <div class="row w-100 m-0">
     <form asp-action="Import" asp-controller="Customer" class="w-100" enctype="multipart/form-data">
-        <input asp-for="fileTypeCode" type="hidden" value="CI"/>
+        <input asp-for="fileTypeCode" type="hidden" value="CI" />
         <div class="card w-100">
             <div class="card-header">
                 <h3 class="card-title">Import dữ liệu khách hàng</h3>
@@ -50,7 +54,7 @@
 </div>
 
 <script>
-    $(".custom-file-input").on("change", function() {
+    $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });

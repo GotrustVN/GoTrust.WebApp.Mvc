@@ -37,9 +37,10 @@ namespace HDI.MVC
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
-            
+            services.AddHttpClient();
             services.AddDbContext<AppDbContext>();
             services.AddRepostiories();
+            services.AddExternalService();
             services.AddFluentValidation();
             services.AddNotyf(config => { 
                 config.DurationInSeconds = 6; 
@@ -51,13 +52,12 @@ namespace HDI.MVC
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new CustomerMapping());
+                mc.AddProfile(new HealthInsuranceOrderMapping());
             });
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
             services.AddScoped<IValidator<CustomerCreateViewModel>, CustomerCreateViewModelValidator>();
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
