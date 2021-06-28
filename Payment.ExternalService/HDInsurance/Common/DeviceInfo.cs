@@ -12,7 +12,7 @@ namespace Payment.ExternalService.HDInsurance
             {
                 this.DeviceId = string.Empty;
                 this.DeviceCode = string.Empty;
-                this.IpPrivate = "123";
+                this.IpPrivate = string.Empty;
                 this.IpPublic = string.Empty;
                 this.X = string.Empty;
                 this.Y = string.Empty;

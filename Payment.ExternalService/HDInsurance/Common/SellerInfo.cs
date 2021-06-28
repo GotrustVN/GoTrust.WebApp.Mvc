@@ -11,7 +11,7 @@ namespace Payment.ExternalService.HDInsurance
             if (initDefault)
             {
                 SELLER_CODE = "";
-                ORG_CODE = "";
+                ORG_CODE = "HDI";
                 ORG_TRAFFIC = "";
                 TRAFFIC_LINK = "";
                 ENVIROMENT = "WEB";

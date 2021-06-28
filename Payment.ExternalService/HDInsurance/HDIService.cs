@@ -3,6 +3,7 @@ using Payment.SharedUltilities.Global;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Payment.ExternalService.HDInsurance
@@ -41,18 +42,25 @@ namespace Payment.ExternalService.HDInsurance
                 var url = "OpenApi/v1/mask/insur/create_pay";
                 client.BaseAddress = new Uri(AppGlobal.HDInsurance_Url);
                 client.DefaultRequestHeaders.Add("Token", HDIGlobal.RequestToken);
+                
+                if (string.IsNullOrEmpty(request.Data.ACTION))
+                {
+                    request.Data.ACTION = "BH_M";
+                }
 
                 request.CreateSignature();
 
-                var httpContent = new StringContent(request.ToString(), Encoding.UTF8, "application/json");
+
+                var httpContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
                 var response = client.PostAsync(url, httpContent).Result;
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
+                var responseContent = response.Content.ReadAsStringAsync().Result;
+                HealthInsuranceOrderResponse responseData = JsonConvert.DeserializeObject<HealthInsuranceOrderResponse>(responseContent);
+
+                errorMessage = responseData.Error;
+
+                return responseData.Success;
             }
-            return false;
         }
 
         public bool Login(LoginRequest request, out string token, out string errorMessage)

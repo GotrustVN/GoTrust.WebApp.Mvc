@@ -43,7 +43,7 @@
                     { data: "packCode", defaultContent: '' },
                     { data: "effectiveDate", defaultContent: '' },
                     { data: "expirationDate", defaultContent: '' },
-                    { data: "fee", defaultContent: 0 },
+                    { data: "fees", defaultContent: 0 },
                     { data: "discount", defaultContent: 0 },
                     { data: "amount", defaultContent: 0 },
                     { data: "vat", defaultContent: 0 },
@@ -415,8 +415,10 @@
                 productCode: 'TAI_NAN',
                 packCode: item.packCode,
                 relationshipCode: 'BAN_THAN',
+                effectiveDate: item.effectiveDate,
+                expirationDate: item.expirationDate,
                 region: 'VN',
-                fee: item.fees,
+                fees: item.fees,
                 amount: item.amount,
                 vat: item.vat,
                 totalAmount: item.totalAmount
@@ -450,7 +452,6 @@
                 paymentDate: new Date()
             }
         };
-        console.log(data);
 
         $.ajax({
             type: 'POST',

@@ -30,8 +30,7 @@ namespace HDI.MVC.MappingProfile
                .ForPath(x => x.Data.BUYER.FAX, y => y.MapFrom(s => s.buyerFax))
                .ForPath(x => x.Data.BUYER.TAXCODE, y => y.MapFrom(s => s.buyerTaxCode))
                .ForMember(x => x.Action, y => y.Ignore())
-               .ForMember(x => x.Device, y => y.Ignore())
-               .ForMember(x => x.Payment, y => y.Ignore());
+               .ForMember(x => x.Device, y => y.Ignore());
             CreateMap<HealthInsuranceDetail, HealthInsurance>()
                 .ForMember(x => x.CUS_ID, y => y.MapFrom(s => s.customerCode))
                 .ForMember(x => x.TYPE, y => y.MapFrom(s => s.customerType))
@@ -60,7 +59,8 @@ namespace HDI.MVC.MappingProfile
                 .ForMember(x => x.TOTAL_ADD, y => y.MapFrom(s => s.totalAdd))
                 .ForMember(x => x.VAT, y => y.MapFrom(s => s.vat))
                 .ForMember(x => x.TOTAL_AMOUNT, y => y.MapFrom(s => s.totalAmount));
-            CreateMap<HealthInsuranceOrderCreateViewModel, HealthInsuranceOrder>();
+            CreateMap<HealthInsuranceOrderCreateViewModel, HealthInsuranceOrder>()
+                .ForMember(x => x.Details, y => y.Ignore());
             CreateMap<HealthInsuranceDetailViewModel, HealthInsuranceDetail>();
             CreateMap<HealthInsurancePaymentViewModel, HealthInsurancePayment>();
         }

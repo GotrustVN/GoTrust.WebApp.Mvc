@@ -24,7 +24,6 @@ namespace Payment.ExternalService.HDInsurance
         public DeviceInfo Device { get; set; }
         public ActionInfo Action { get; set; }
         public HealthInsuranceData Data { get; set; }
-        public PaymentInfo Payment { get; set; }
         public string Signature { get; set; }
         public string Process { get; set; }
 
@@ -36,7 +35,7 @@ namespace Payment.ExternalService.HDInsurance
                 + this.Device?.DeviceEnvironment
                 + AppGlobal.HDInsurance_UserName
                 + AppGlobal.HDInsurance_Secret
-                + AppGlobal.HDILongIn_ActionCode
+                + AppGlobal.HDInsurance_ActionCode
                 + this.Action?.ParentCode
                 + SecurityHelper.MD5(JsonConvert.SerializeObject(Data).ToString()).ToUpper()
                 + "HDI";
@@ -49,7 +48,16 @@ namespace Payment.ExternalService.HDInsurance
         {
             this.Device = new DeviceInfo(true);
             this.Action = new ActionInfo(AppGlobal.HDInsurance_ActionCode, true);
-            this.Data = new HealthInsuranceData(true);
+            if (this.Data == null)
+            {
+                this.Data = new HealthInsuranceData(true);
+            }
+            else
+            {
+                this.Data.CHANNEL = AppGlobal.HDInsurance_Channel;
+                this.Data.USERNAME = AppGlobal.HDInsurance_UserName;
+                this.Data.SELLER = new SellerInfo(true);
+            }
         }
     }
 }

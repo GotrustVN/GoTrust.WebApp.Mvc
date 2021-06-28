@@ -125,7 +125,7 @@ namespace HDI.MVC.Controllers
                 if (!genericMasterCategoryRepository.IsExistById(model.categoryCode, out MasterCategory category))
                 {
                     notyf.Error("Invalid category code");
-                    return View();
+                    return View(model);
                 }
 
                 healthInsuranaceOrder.category = category;
@@ -133,7 +133,7 @@ namespace HDI.MVC.Controllers
                 if (!customerRepository.IsValidCustomerCode(model.buyerCode, out Customer customer))
                 {
                     notyf.Error("Invalid customer code");
-                    return View();
+                    return View(model);
                 }
 
                 healthInsuranaceOrder.buyer = customer;
@@ -142,6 +142,10 @@ namespace HDI.MVC.Controllers
                 foreach (var detail in model.details)
                 {
                     var healthInsuranceDetail = mapper.Map<HealthInsuranceDetail>(detail);
+
+                    if (healthInsuranaceOrder.Details == null)
+                        healthInsuranaceOrder.Details = new List<HealthInsuranceDetail>();
+
                     healthInsuranaceOrder.Details.Add(healthInsuranceDetail);
                 }
 
@@ -154,7 +158,7 @@ namespace HDI.MVC.Controllers
                 orderRequest.Data.PRODUCT_CODE = healthInsuranaceOrder.productCode;
                 orderRequest.Data.CATEGORY = healthInsuranaceOrder.category.code;
 
-                orderRequest.Payment = new PaymentInfo()
+                orderRequest.Data.PAY_INFO = new PaymentInfo()
                 {
                     PAYMENT_TYPE = healthInsuranaceOrder.payment.paymentType
                 };
@@ -170,7 +174,7 @@ namespace HDI.MVC.Controllers
                 if (!createResult)
                 {
                     notyf.Error(errorMessage);
-                    return BadRequest(ModelState);
+                    return View(model);
                 }
 
                 genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);

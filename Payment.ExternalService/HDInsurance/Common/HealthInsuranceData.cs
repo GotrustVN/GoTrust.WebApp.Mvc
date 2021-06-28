@@ -24,5 +24,6 @@ namespace Payment.ExternalService.HDInsurance
         public SellerInfo SELLER { get; set; }
         public BuyerInfo BUYER { get; set; }
         public List<HealthInsurance> HEALTH_INSUR { get; set; } = new List<HealthInsurance>();
+        public PaymentInfo PAY_INFO { get; set; }
     }
 }
