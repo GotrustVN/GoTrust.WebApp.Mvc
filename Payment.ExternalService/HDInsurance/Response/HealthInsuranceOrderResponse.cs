@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace Payment.ExternalService.HDInsurance
 {
@@ -10,5 +12,6 @@ namespace Payment.ExternalService.HDInsurance
         public string Error { get; set; }
         public string ErrorMessage { get; set; }
         public string Signature { get; set; }
+        public object Data { get; set; }
     }
 }

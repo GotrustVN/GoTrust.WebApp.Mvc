@@ -117,6 +117,11 @@ namespace HDI.MVC.Controllers
         [HttpPost]
         public IActionResult Create(HealthInsuranceOrderCreateViewModel model)
         {
+            ModelState.Remove("buyerIndentityDate");
+
+            foreach (var key in ModelState.Keys.Where(m => m.Contains("customerIdentityDate")).ToList())
+                ModelState.Remove(key);
+
             if (ModelState.IsValid)
             {
                 var healthInsuranaceOrder = mapper.Map<HealthInsuranceOrder>(model);
@@ -143,6 +148,12 @@ namespace HDI.MVC.Controllers
                 {
                     var healthInsuranceDetail = mapper.Map<HealthInsuranceDetail>(detail);
 
+                    if(genericMasterCategoryRepository.IsExistById(detail.relationshipCode, 
+                        out MasterCategory relationship))
+                    {
+                        healthInsuranceDetail.relationship = relationship;
+                    }
+
                     if (healthInsuranaceOrder.Details == null)
                         healthInsuranaceOrder.Details = new List<HealthInsuranceDetail>();
 
@@ -150,6 +161,7 @@ namespace HDI.MVC.Controllers
                 }
 
                 var payment = mapper.Map<HealthInsurancePayment>(model.payment);
+                
                 healthInsuranaceOrder.payment = payment;
 
                 var orderRequest = mapper.Map<HealthInsuranceOrderRequest>(healthInsuranaceOrder);
@@ -190,7 +202,7 @@ namespace HDI.MVC.Controllers
                     ModelState.AddModelError("","Create failed. Internal error");
                 }
             }
-            return View(ModelState);
+            return View(model);
         }
     }
 }

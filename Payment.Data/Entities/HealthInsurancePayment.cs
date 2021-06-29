@@ -10,6 +10,6 @@ namespace Payment.Data.Entities
     {
         public int id { get; set; }
         public string paymentType { get; set; }
-        public DateTime payDate { get; set; }
+        public DateTime? payDate { get; set; }
     }
 }

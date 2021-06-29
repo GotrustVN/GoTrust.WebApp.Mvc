@@ -23,7 +23,7 @@ namespace Payment.Data.Entities
         public string customerNationality { get; set; }
         public string customerIdentityNumber { get; set; }
         public string customerIdentityPlace { get; set; }
-        public DateTime customerIdentityDate { get; set; }
+        public DateTime? customerIdentityDate { get; set; }
         public string customerPhone { get; set; }
         public string customerEmail { get; set; }
         public string customerFax { get; set; }

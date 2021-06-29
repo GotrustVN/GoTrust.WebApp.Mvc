@@ -18,7 +18,7 @@ namespace Payment.API.MappingProfile
                 .ForPath(x => x.Data.BUYER.TYPE, y => y.MapFrom(s => s.buyerType))
                 .ForPath(x => x.Data.BUYER.NATIONALITY, y => y.MapFrom(s => s.buyerNationality))
                 .ForPath(x => x.Data.BUYER.NAME, y => y.MapFrom(s => s.buyerName))
-                .ForPath(x => x.Data.BUYER.DOB, y => y.MapFrom(s => s.buyerDateOfBirth.GetValueOrDefault().ToString("dd/MM/yyy")))
+                .ForPath(x => x.Data.BUYER.DOB, y => y.MapFrom(s => s.buyerDateOfBirth.ToString("dd/MM/yyy")))
                 .ForPath(x => x.Data.BUYER.GENDER, y => y.MapFrom(s => s.buyerGender))
                 .ForPath(x => x.Data.BUYER.PROV, y => y.MapFrom(s => s.buyerProvince))
                 .ForPath(x => x.Data.BUYER.DIST, y => y.MapFrom(s => s.buyerDistrict))
@@ -29,9 +29,8 @@ namespace Payment.API.MappingProfile
                 .ForPath(x => x.Data.BUYER.PHONE, y => y.MapFrom(s => s.buyerPhone))
                 .ForPath(x => x.Data.BUYER.FAX, y => y.MapFrom(s => s.buyerFax))
                 .ForPath(x => x.Data.BUYER.TAXCODE, y => y.MapFrom(s => s.buyerTaxCode))
-                .ForMember(x => x.Action,y => y.Ignore())
-                .ForMember(x => x.Device, y => y.Ignore())
-                .ForMember(x => x.Payment,y => y.Ignore());
+                .ForMember(x => x.Action, y => y.Ignore())
+                .ForMember(x => x.Device, y => y.Ignore());
             CreateMap<HealthInsuranceDetail, HealthInsurance>()
                 .ForMember(x => x.CUS_ID, y => y.MapFrom(s => s.customerCode))
                 .ForMember(x => x.TYPE, y => y.MapFrom(s => s.customerType))
@@ -53,13 +52,13 @@ namespace Payment.API.MappingProfile
                 .ForMember(x => x.PACK_CODE, y => y.MapFrom(s => s.packCode))
                 .ForMember(x => x.REGION, y => y.MapFrom(s => s.region))
                 .ForMember(x => x.EFFECTIVE_DATE, y => y.MapFrom(s => s.effectiveDate.ToString("dd/MM/yyyy")))
-                .ForMember(x => x.EXPIRATION_DATE, y => y.MapFrom(s => s.expirationDate.ToString("dd/MM/yyyy")))
-                .ForMember(x => x.FEES, y => y.MapFrom(s => s.fees))
-                .ForMember(x => x.AMOUNT, y => y.MapFrom(s => s.amount))
-                .ForMember(x => x.TOTAL_DISCOUNT, y => y.MapFrom(s => s.totalDiscount))
-                .ForMember(x => x.TOTAL_ADD, y => y.MapFrom(s => s.totalAdd))
-                .ForMember(x => x.VAT, y => y.MapFrom(s => s.vat))
-                .ForMember(x => x.TOTAL_AMOUNT, y => y.MapFrom(s => s.totalAmount));
+                .ForMember(x => x.EXPIRATION_DATE, y => y.MapFrom(s => s.expirationDate.ToString("dd/MM/yyyy")));
+                //.ForMember(x => x.FEES, y => y.MapFrom(s => s.fees))
+                //.ForMember(x => x.AMOUNT, y => y.MapFrom(s => s.amount))
+                //.ForMember(x => x.TOTAL_DISCOUNT, y => y.MapFrom(s => s.totalDiscount))
+                //.ForMember(x => x.TOTAL_ADD, y => y.MapFrom(s => s.totalAdd))
+                //.ForMember(x => x.VAT, y => y.MapFrom(s => s.vat))
+                //.ForMember(x => x.TOTAL_AMOUNT, y => y.MapFrom(s => s.totalAmount));
             CreateMap<HealthInsuranceOrderCreateRequestModel, HealthInsuranceOrder>();
             CreateMap<HealthInsuranceOrderUpdateRequestModel, HealthInsuranceOrder>();
             CreateMap<HealthInsuranceDetailCreateRequestModel, HealthInsuranceDetail>();

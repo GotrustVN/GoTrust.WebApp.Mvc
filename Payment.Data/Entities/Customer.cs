@@ -21,7 +21,7 @@ namespace Payment.Data.Entities
         public string nationality { get; set; }
         public string identityNumber { get; set; }
         public string identityPlace { get; set; }
-        public DateTime identityDate { get; set; }
+        public DateTime? identityDate { get; set; } = null;
         public string phone { get; set; }
         public string email { get; set; }
         public string fax { get; set; }

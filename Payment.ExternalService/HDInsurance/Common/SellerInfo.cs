@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Payment.SharedUltilities.Global;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace Payment.ExternalService.HDInsurance
         {
             if (initDefault)
             {
-                SELLER_CODE = "";
+                SELLER_CODE = AppGlobal.HDInsurance_UserName;
                 ORG_CODE = "HDI";
                 ORG_TRAFFIC = "";
                 TRAFFIC_LINK = "";

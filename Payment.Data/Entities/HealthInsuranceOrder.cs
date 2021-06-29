@@ -20,7 +20,7 @@ namespace Payment.Data.Entities
         public string buyerCode { get; set; }
         public string buyerName { get; set; }
         public string buyerType { get; set; }
-        public DateTime? buyerDateOfBirth { get; set; }
+        public DateTime buyerDateOfBirth { get; set; }
         public string buyerGender { get; set; }
         public string buyerProvince { get; set; }
         public string buyerDistrict { get; set; }

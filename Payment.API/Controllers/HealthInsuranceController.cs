@@ -103,7 +103,7 @@ namespace Payment.API.Controllers
                 orderRequest.Data.PRODUCT_CODE = healthInsuranaceOrder.productCode;
                 orderRequest.Data.CATEGORY = healthInsuranaceOrder.category.code;
 
-                orderRequest.Payment = new PaymentInfo()
+                orderRequest.Data.PAY_INFO = new PaymentInfo()
                 {
                     PAYMENT_TYPE = healthInsuranaceOrder.payment.paymentType
                 };
