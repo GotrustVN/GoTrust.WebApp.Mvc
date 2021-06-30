@@ -27,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.EpplusExtension", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.MiddleLayer", "Payment.MiddleLayer\Payment.MiddleLayer.csproj", "{6BA2BD48-0F18-4D30-A4CF-0A95085EAEB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HDI.MVC", "HDI.MVC\HDI.MVC.csproj", "{DF6C4F0A-C057-4489-9D79-908A57704125}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HDI.MVC", "HDI.MVC\HDI.MVC.csproj", "{DF6C4F0A-C057-4489-9D79-908A57704125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Payment.UnitTest", "Payment.UnitTest\Payment.UnitTest.csproj", "{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.UnitTest", "Payment.UnitTest\Payment.UnitTest.csproj", "{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HDIClient.MVC", "HDIClient.MVC\HDIClient.MVC.csproj", "{704CCE5D-60A5-41F5-98B7-D315AE91D2E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A5F87B1-2726-4C71-B158-A1C897B2C2E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{704CCE5D-60A5-41F5-98B7-D315AE91D2E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{704CCE5D-60A5-41F5-98B7-D315AE91D2E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{704CCE5D-60A5-41F5-98B7-D315AE91D2E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{704CCE5D-60A5-41F5-98B7-D315AE91D2E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

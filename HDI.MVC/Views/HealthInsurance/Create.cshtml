@@ -67,8 +67,14 @@
 }
 
 <div class="row w-100 m-0">
-    <form class="w-100">
+    <form class="w-100" id="create-form">
         <input type="hidden" asp-for="categoryCode" />
+        <input type="hidden" asp-for="buyerCode" />
+        <input type="hidden" asp-for="buyerType" />
+        <input type="hidden" asp-for="buyerName" />
+        <input type="hidden" asp-for="buyerDateOfBirth" />
+        <input type="hidden" asp-for="buyerPhone" />
+        <input type="hidden" asp-for="buyerEmail" />
         <div class="card w-100">
             <div class="card-header bg-success text-white">
                 <h3 class="card-title">Thông tin khách hàng</h3>
@@ -425,6 +431,11 @@
             }
         });
 
+        var payment = {
+            paymentType: $("#paymentType").val(),
+                paymentDate: new Date()
+        }
+
         var data = {
             categoryCode: $("#categoryCode").val(),
             productCode: $("#productCode").val(),
@@ -452,6 +463,15 @@
                 paymentDate: new Date()
             }
         };
+
+        @*var form = document.getElementById('create-form');
+        var formData = new FormData(form);
+        formData.append('details', JSON.stringify(details));
+        formData.append('payment', JSON.stringify(payment));
+        console.log(formData);
+        var request = new XMLHttpRequest();
+        request.open("POST", "@Url.Action("Create","HealthInsurance")");
+        request.send(formData);*@
 
         $.ajax({
             type: 'POST',

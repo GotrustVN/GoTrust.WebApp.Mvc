@@ -65,6 +65,12 @@ namespace HDI.MVC.Controllers
             return View();
         }
 
+        public IActionResult Detail(string code)
+        {
+
+            return View();
+        }
+
         [HttpGet]
         public IActionResult DetailPartial(HealthInsuranceDetailViewModel model)
         {
@@ -195,6 +201,7 @@ namespace HDI.MVC.Controllers
 
                 if (result > 0)
                 {
+                    notyf.Success("Thao tác thành công");
                     return RedirectToAction("Detail", "HealthInsurance", new { code = healthInsuranaceOrder.code });
                 }
                 else

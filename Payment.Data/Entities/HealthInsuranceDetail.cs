@@ -31,7 +31,7 @@ namespace Payment.Data.Entities
         public string productCode { get; set; }
         public string packCode { get; set; }
         public MasterCategory relationship { get; set; }
-        public string region { get; set; }
+        public string region { get; set; } = "VN";
         public DateTime effectiveDate { get; set; }
         public DateTime expirationDate { get; set; }
         public decimal fees { get; set; }
@@ -40,5 +40,12 @@ namespace Payment.Data.Entities
         public decimal totalAdd { get; set; }
         public decimal vat { get; set; }
         public decimal totalAmount { get; set; }
+        public string urlGCN { get; set; }
+        #region HDI track
+        public string detailCode { get; set; }
+        public string contractCode { get; set; }
+        public string certificateNo { get; set; }
+
+        #endregion
     }
 }
