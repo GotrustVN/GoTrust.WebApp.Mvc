@@ -116,49 +116,7 @@ namespace HDIClient.MVC.Controllers
 
                     healthInsuranaceOrder.Details.Add(healthInsuranceDetail);
                 }
-
-                var payment = mapper.Map<HealthInsurancePayment>(model.payment);
-
-                healthInsuranaceOrder.payment = payment;
-
-                var orderRequest = mapper.Map<HealthInsuranceOrderRequest>(healthInsuranaceOrder);
-                orderRequest.SetDefaultData();
-
-                orderRequest.Data.PRODUCT_CODE = healthInsuranaceOrder.productCode;
-                orderRequest.Data.CATEGORY = healthInsuranaceOrder.category.code;
-
-                orderRequest.Data.PAY_INFO = new PaymentInfo()
-                {
-                    PAYMENT_TYPE = healthInsuranaceOrder.payment.paymentType
-                };
-
-                foreach (var detail in healthInsuranaceOrder.Details)
-                {
-                    var healthInsurance = mapper.Map<HealthInsurance>(detail);
-                    orderRequest.Data.HEALTH_INSUR.Add(healthInsurance);
-                }
-
-                var createResult = hdiService.CreateOrder(orderRequest, out string errorMessage);
-
-                if (!createResult)
-                {
-                    notyf.Error(errorMessage);
-                    return View(model);
-                }
-
-                genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);
-
-                var result = context.SaveChanges();
-
-                if (result > 0)
-                {
-                    notyf.Success("Thao tác thành công");
-                    return RedirectToAction("Detail", "HealthInsurance", new { code = healthInsuranaceOrder.code });
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Create failed. Internal error");
-                }
+                
             }
             return View(model);
         }
