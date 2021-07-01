@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using HDIClient.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Payment.Data.Context;
 using Payment.Data.Entities;
 using Payment.Data.Extensions;
 using Payment.Data.Repositories;
 using Payment.ExternalService.HDInsurance;
+using Payment.SharedModel.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +19,26 @@ namespace HDIClient.MVC.Controllers
         private readonly ICustomerRepository customerRepository;
         private readonly IGenericRepository<MasterCategory> genericMasterCategoryRepository;
         private readonly IMasterCategoryRepository masterCategoryRepository;
+        private readonly IGenericRepository<HealthInsuranceOrder> genericHealthInsuranceOrderRepository;
+        private readonly IHealthInsuranceOrderRepository healthInsuranceOrderRepository;
         private readonly IMapper mapper;
+        private readonly AppDbContext context;
 
         public HealthInsuranceOrderController(ICustomerRepository customerRepository,
             IGenericRepository<MasterCategory> genericMasterCategoryRepository,
             IMasterCategoryRepository masterCategoryRepository,
-            IMapper mapper)
+            IGenericRepository<HealthInsuranceOrder> genericHealthInsuranceOrderRepository,
+            IHealthInsuranceOrderRepository healthInsuranceOrderRepository,
+            IMapper mapper,
+            AppDbContext context)
         {
             this.customerRepository = customerRepository;
             this.genericMasterCategoryRepository = genericMasterCategoryRepository;
             this.masterCategoryRepository = masterCategoryRepository;
+            this.genericHealthInsuranceOrderRepository = genericHealthInsuranceOrderRepository;
+            this.healthInsuranceOrderRepository = healthInsuranceOrderRepository;
             this.mapper = mapper;
+            this.context = context;
         }
         public IActionResult Create(string customerCode, string categoryCode)
         {
@@ -73,7 +84,7 @@ namespace HDIClient.MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(HealthInsuranceOrderCreateViewModel model)
+        public ActionResult<CommonResponse> Create(HealthInsuranceOrderCreateViewModel model)
         {
             ModelState.Remove("buyerIndentityDate");
 
@@ -113,18 +124,42 @@ namespace HDIClient.MVC.Controllers
 
                     if (healthInsuranaceOrder.Details == null)
                         healthInsuranaceOrder.Details = new List<HealthInsuranceDetail>();
-
                     healthInsuranaceOrder.Details.Add(healthInsuranceDetail);
                 }
-                
+
+                genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);
+
+                var result = context.SaveChanges();
+
+                var respone = new CommonResponse();
+
+                if(result > 0)
+                {
+                    respone.GetCreateSuccessResponse();
+                    respone.SetData(healthInsuranaceOrder);
+                }
+                else
+                {
+                    respone.GetCreateFailedResponse();
+                }
+                return Json(respone);
             }
-            return View(model);
+            return Json(new CommonResponse().GetCreateFailedResponse());
         }
 
         [HttpPost]
         public IActionResult Payment(string orderCode)
         {
             return View();
+        }
+
+        public IActionResult Detail(string orderCode)
+        {
+            var order = healthInsuranceOrderRepository.GetById(orderCode);
+            var model = new HealthInsuranceOrderDetailViewModel();
+            model = mapper.Map<HealthInsuranceOrderDetailViewModel>(order);
+            model.details = order.Details.ToList();
+            return View(model);
         }
     }
 }

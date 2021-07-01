@@ -67,7 +67,14 @@
 <div class="row w-100 m-0">
     <form class="w-100" id="create-form">
         <input type="hidden" asp-for="categoryCode" />
-        @Html.ValidationSummary("",new { @class="text-danger"})
+        <input type="hidden" asp-for="buyerCode" />
+        <input type="hidden" asp-for="buyerName" />
+        <input type="hidden" asp-for="buyerPhone" />
+        <input type="hidden" asp-for="buyerEmail" />
+        <input type="hidden" asp-for="buyerDateOfBirth" />
+        <input type="hidden" asp-for="buyerGender" />
+        <input type="hidden" asp-for="buyerType" />
+        @Html.ValidationSummary("",new { @class="text-danger", id="validate-summary"})
         <div class="card w-100 mt-1">
             <div class="card-header px-2">
                 <div class="row w-100 m-0">
@@ -125,88 +132,6 @@
 </div>
 <div id="modal-area-content"></div>
 <script>
-    $(document).ready(() => {
-        $('.select').select2({
-            theme: "bootstrap",
-            placeholder: '-- Root --',
-            allowClear: true
-        });
-
-        $('#buyerCode').autocomplete({
-            delay: 300,
-            source: (request, response) => {
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("GetSelectViewItem", "Customer")',
-                    data: {
-                        code: request.term
-                    },
-                    dataType: 'json',
-                    success: (res) => {
-                        response($.map(res, (item) => {
-                            return {
-                                label: item.text,
-                                value: item.id
-                            };
-                        }))
-                    }
-                })
-            },
-            select: (e, i) => {
-                $("#buyerCode").text(i.item.value);
-                $("#buyerCode").trigger('change');
-            },
-            minLength: 3
-        })
-
-        $('#buyerCode').on('change', () => {
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("GetCustomer","Customer")',
-                data: {
-                    code: $('#buyerCode').val()
-                },
-                success: (res) => {
-                    $('#buyerName').val(res.name);
-                    $('#buyerDateOfBirth').val(res.dateOfBirth.split('T')[0]);
-                    $('#buyerPhone').val(res.phone);
-                    $('#buyerEmail').val(res.email);
-                    $('#buyerType').val(res.type.code).change();
-                    $('#buyerGender').val(res.gender.code).change();
-                }
-            });
-        });
-
-    })
-
-    onEditAddress = () => {
-        $.ajax({
-            type: 'GET',
-            url: '@Url.Action("Address","Common")',
-            data: {
-                provinceCode: $("#buyerProvince").val(),
-                districtCode: $("#buyerDistrict").val(),
-                wardCode: $("#buyerWard").val(),
-                address: $("#buyerAddress").val(),
-                fullAddress: $("#buyerFullAddress").val(),
-            },
-            success: (res) => {
-                $("#modal-area-content").empty();
-                $("#modal-area-content").html(res);
-            }
-        }).done(() => {
-            Init(null, () =>
-            {
-                $('#provinceCode').val($('#province').val());
-                $('#districtCode').val($('#district').val());
-                $('#wardCode').val($('#ward').val());
-                $('#address').val($('#additionalAddress').val());
-                $('#fullAddress').val($('#resultAddress').val());
-                $("#address-modal").modal("hide");
-            });
-        })
-    }
-
     onAddOrderDetail = () => {
         $.ajax({
             type: 'GET',
@@ -252,15 +177,6 @@
                 customerType: $("#buyerType").val(),
                 customerDateOfBirth: $("#buyerDateOfBirth").val(),
                 customerGender: $("#buyerGender").val(),
-                customerProvince: $("#buyerProvince").val(),
-                customerDistrict: $("#buyerDistrict").val(),
-                customerWard: $("#buyerWard").val(),
-                customerAddress: $("#buyerAddress").val(),
-                customerFullAddress: $("#buyerFullAddress").val(),
-                customerNationality: $("#buyerNationality").val(),
-                customerIdentityNumber: $("#buyerIdentityNumber").val(),
-                customerIdentityPlace: $("#buyerIdentityPlace").val(),
-                customerIdentityDate: $("#buyerIdentityDate").val(),
                 customerPhone: $("#buyerPhone").val(),
                 customerEmail: $("#buyerEmail").val(),
                 customerFax: $("#buyerFax").val(),
@@ -277,11 +193,6 @@
                 totalAmount: item.totalAmount
             }
         });
-
-        var payment = {
-            paymentType: $("#paymentType").val(),
-                paymentDate: new Date()
-        }
 
         var data = {
             categoryCode: $("#categoryCode").val(),
@@ -311,21 +222,18 @@
             }
         };
 
-        @*var form = document.getElementById('create-form');
-        var formData = new FormData(form);
-        formData.append('details', JSON.stringify(details));
-        formData.append('payment', JSON.stringify(payment));
-        console.log(formData);
-        var request = new XMLHttpRequest();
-        request.open("POST", "@Url.Action("Create","HealthInsurance")");
-        request.send(formData);*@
-
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("Create","HealthInsurance")',
+            url: '@Url.Action("Create","HealthInsuranceOrder")',
             data: data,
             success: (res) => {
-
+                if (res.result.code == 'success') {
+                    location.href = '@Url.Action("Detail","HealthInsuranceOrder")?ordercode=' + res.data.code;
+                }
+                else {
+                    $('#validate-summary').empty();
+                    $('#validate-summary').html(res.result.message);
+                }
             }
         });
     }

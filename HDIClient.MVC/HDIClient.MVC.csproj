@@ -23,6 +23,7 @@
     <ProjectReference Include="..\Payment.Data\Payment.Data.csproj" />
     <ProjectReference Include="..\Payment.ExternalService\Payment.ExternalService.csproj" />
     <ProjectReference Include="..\Payment.NetCoreExtension\Payment.NetCoreExtension.csproj" />
+    <ProjectReference Include="..\Payment.SharedModel\Payment.SharedModel.csproj" />
   </ItemGroup>
 
 </Project>

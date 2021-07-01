@@ -48,6 +48,7 @@ namespace HDIClient.MVC
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new CustomerMapping());
+                mc.AddProfile(new HealthInsuranceOrderMapping());
             });
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);

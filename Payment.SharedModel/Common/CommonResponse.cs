@@ -24,8 +24,8 @@ namespace Payment.SharedModel.Common
         {
             this.result = new CommonResult()
             {
-                message = "success",
-                code = "Create successfully for " + additional
+                code = "success",
+                message = "Create successfully for " + additional
             };
             return this;
         }
@@ -33,8 +33,8 @@ namespace Payment.SharedModel.Common
         {
             this.result = new CommonResult()
             {
-                message = "success",
-                code = "Update successfully for " + additional
+                code = "success",
+                message = "Update successfully for " + additional
             };
             return this;
         }
@@ -42,8 +42,8 @@ namespace Payment.SharedModel.Common
         {
             this.result = new CommonResult()
             {
-                message = "success",
-                code = "Delete successfully for " + additional
+                code = "success",
+                message = "Delete successfully for " + additional
             };
             return this;
         }
@@ -51,8 +51,8 @@ namespace Payment.SharedModel.Common
         {
             this.result = new CommonResult()
             {
-                message = "error",
-                code = "Create failed for " + additional
+                code = "error",
+                message = "Create failed for " + additional
             };
             return this;
         }
@@ -60,8 +60,8 @@ namespace Payment.SharedModel.Common
         {
             this.result = new CommonResult()
             {
-                message = "error",
-                code = "Update failed for " + additional
+                code = "error",
+                message = "Update failed for " + additional
             };
             return this;
         }
@@ -69,8 +69,8 @@ namespace Payment.SharedModel.Common
         {
             this.result = new CommonResult()
             {
-                message = "error",
-                code = "Delete failed for " + additional
+                code = "error",
+                message = "Delete failed for " + additional
             };
             return this;
         }

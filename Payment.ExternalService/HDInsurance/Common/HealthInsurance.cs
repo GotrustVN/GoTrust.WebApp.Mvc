@@ -27,11 +27,11 @@ namespace Payment.ExternalService.HDInsurance
         public string REGION { get; set; } = "VN";
         public string EFFECTIVE_DATE { get; set; }
         public string EXPIRATION_DATE { get; set; }
-        //public string FEES { get; set; }
-        //public string AMOUNT { get; set; }
-        //public string TOTAL_DISCOUNT { get; set; }
-        //public string TOTAL_ADD { get; set; }
-        //public string VAT { get; set; }
-        //public string TOTAL_AMOUNT { get; set; }
+        public string FEES { get; set; }
+        public string AMOUNT { get; set; }
+        public string TOTAL_DISCOUNT { get; set; }
+        public string TOTAL_ADD { get; set; }
+        public string VAT { get; set; }
+        public string TOTAL_AMOUNT { get; set; }
     }
 }
