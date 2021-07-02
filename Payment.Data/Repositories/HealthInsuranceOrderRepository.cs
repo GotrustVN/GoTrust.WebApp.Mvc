@@ -25,6 +25,7 @@ namespace Payment.Data.Repositories
         public HealthInsuranceOrder GetById(string id)
         {
             var order = context.HealthInsuranceOrder
+                .Include(x => x.category)
                 .Include(x => x.Details)
                 .ThenInclude(d =>  d.relationship)
                 .FirstOrDefault(x => x.code == id);

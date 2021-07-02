@@ -9,6 +9,18 @@ namespace HDIClient.MVC.Models
 {
     public class HealthInsuranceOrderDetailViewModel
     {
+        #region contract infor
+        public string orderCode { get; set; }
+        public string contractCode { get; set; }
+        public string contractNo { get; set; }
+        public string contractModel { get; set; }
+        public string status { get; set; }
+        public string statusName { get; set; }
+        public decimal amount { get; set; }
+        public decimal totalDiscount { get; set; }
+        public decimal vat { get; set; }
+        public decimal totalAmount { get; set; }
+        #endregion
         public string code { get; set; }
         public string channel { get; set; }
         public string username { get; set; }

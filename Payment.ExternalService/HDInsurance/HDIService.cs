@@ -2,6 +2,7 @@
 using Payment.SharedUltilities.Global;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,7 +11,8 @@ namespace Payment.ExternalService.HDInsurance
 {
     public interface IHDIService
     {
-        public bool CreateOrder(HealthInsuranceOrderRequest request, out string errorMessage);
+        public bool CreateOrder(HealthInsuranceOrderRequest request, out string errorMessage,
+            out HealthInsuranceReponseData reponseData);
 
         public bool Login(LoginRequest request, out string token, out string errorMessage);
     }
@@ -23,9 +25,11 @@ namespace Payment.ExternalService.HDInsurance
             this.httpClientFactory = httpClientFactory;
         }
 
-        public bool CreateOrder(HealthInsuranceOrderRequest request, out string errorMessage)
+        public bool CreateOrder(HealthInsuranceOrderRequest request, out string errorMessage,
+            out HealthInsuranceReponseData reponseData)
         {
             errorMessage = string.Empty;
+            reponseData = null;
 
             if(HDIGlobal.IsTokenExpired || string.IsNullOrEmpty(HDIGlobal.RequestToken))
             {
@@ -50,16 +54,24 @@ namespace Payment.ExternalService.HDInsurance
 
                 request.CreateSignature();
 
-
                 var httpContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
                 var response = client.PostAsync(url, httpContent).Result;
 
                 var responseContent = response.Content.ReadAsStringAsync().Result;
-                HealthInsuranceOrderResponse responseData = JsonConvert.DeserializeObject<HealthInsuranceOrderResponse>(responseContent);
+                HealthInsuranceOrderResponse responseInfo = JsonConvert.DeserializeObject<HealthInsuranceOrderResponse>(responseContent);
+                errorMessage = responseInfo.Error;
 
-                errorMessage = responseData.Error;
+                if (responseInfo.Success)
+                {
+                    var data = responseInfo.Data.FirstOrDefault();
+                    if(data != null)
+                    {
+                        reponseData = JsonConvert.DeserializeObject<HealthInsuranceReponseData>
+                            (JsonConvert.SerializeObject(data));
+                    }
+                }
 
-                return responseData.Success;
+                return responseInfo.Success;
             }
         }
 

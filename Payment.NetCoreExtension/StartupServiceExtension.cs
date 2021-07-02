@@ -45,6 +45,7 @@ namespace Payment.NetCoreExtension
         public static void AddExternalService(this IServiceCollection services)
         {
             services.AddScoped<IHDIService, HDIService>();
+            services.AddScoped<IVNPayService, VNPayService>();
         }
 
     }

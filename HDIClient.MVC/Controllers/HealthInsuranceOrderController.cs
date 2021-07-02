@@ -23,6 +23,7 @@ namespace HDIClient.MVC.Controllers
         private readonly IHealthInsuranceOrderRepository healthInsuranceOrderRepository;
         private readonly IMapper mapper;
         private readonly AppDbContext context;
+        private readonly IHDIService hdiService;
 
         public HealthInsuranceOrderController(ICustomerRepository customerRepository,
             IGenericRepository<MasterCategory> genericMasterCategoryRepository,
@@ -30,7 +31,8 @@ namespace HDIClient.MVC.Controllers
             IGenericRepository<HealthInsuranceOrder> genericHealthInsuranceOrderRepository,
             IHealthInsuranceOrderRepository healthInsuranceOrderRepository,
             IMapper mapper,
-            AppDbContext context)
+            AppDbContext context,
+            IHDIService hdiService)
         {
             this.customerRepository = customerRepository;
             this.genericMasterCategoryRepository = genericMasterCategoryRepository;
@@ -39,6 +41,7 @@ namespace HDIClient.MVC.Controllers
             this.healthInsuranceOrderRepository = healthInsuranceOrderRepository;
             this.mapper = mapper;
             this.context = context;
+            this.hdiService = hdiService;
         }
         public IActionResult Create(string customerCode, string categoryCode)
         {
@@ -93,15 +96,15 @@ namespace HDIClient.MVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var healthInsuranaceOrder = mapper.Map<HealthInsuranceOrder>(model);
-                healthInsuranaceOrder.SetDefaultValue();
+                var healthInsuranceOrder = mapper.Map<HealthInsuranceOrder>(model);
+                healthInsuranceOrder.SetDefaultValue();
 
                 if (!genericMasterCategoryRepository.IsExistById(model.categoryCode, out MasterCategory category))
                 {
                     return View(model);
                 }
 
-                healthInsuranaceOrder.category = category;
+                healthInsuranceOrder.category = category;
 
                 if (!customerRepository.IsValidCustomerCode(model.buyerCode, out Customer customer))
                 {
@@ -109,8 +112,8 @@ namespace HDIClient.MVC.Controllers
                     return View(model);
                 }
 
-                healthInsuranaceOrder.buyer = customer;
-                healthInsuranaceOrder.UpdateBuyerInfor();
+                healthInsuranceOrder.buyer = customer;
+                healthInsuranceOrder.UpdateBuyerInfor();
 
                 foreach (var detail in model.details)
                 {
@@ -122,12 +125,13 @@ namespace HDIClient.MVC.Controllers
                         healthInsuranceDetail.relationship = relationship;
                     }
 
-                    if (healthInsuranaceOrder.Details == null)
-                        healthInsuranaceOrder.Details = new List<HealthInsuranceDetail>();
-                    healthInsuranaceOrder.Details.Add(healthInsuranceDetail);
+                    if (healthInsuranceOrder.Details == null)
+                        healthInsuranceOrder.Details = new List<HealthInsuranceDetail>();
+                    healthInsuranceOrder.Details.Add(healthInsuranceDetail);
                 }
 
-                genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);
+                healthInsuranceOrder.totalAmount = healthInsuranceOrder.Details.Sum(x => x.totalAmount);
+                genericHealthInsuranceOrderRepository.Insert(healthInsuranceOrder);
 
                 var result = context.SaveChanges();
 
@@ -136,7 +140,7 @@ namespace HDIClient.MVC.Controllers
                 if(result > 0)
                 {
                     respone.GetCreateSuccessResponse();
-                    respone.SetData(healthInsuranaceOrder);
+                    respone.SetData(healthInsuranceOrder);
                 }
                 else
                 {
@@ -160,6 +164,60 @@ namespace HDIClient.MVC.Controllers
             model = mapper.Map<HealthInsuranceOrderDetailViewModel>(order);
             model.details = order.Details.ToList();
             return View(model);
+        }
+
+        public IActionResult SendAfterPaid(string orderCode)
+        {
+            var healthInsuranceOrder = healthInsuranceOrderRepository.GetById(orderCode);
+
+            if(healthInsuranceOrder != null)
+            {
+                var orderRequest = mapper.Map<HealthInsuranceOrderRequest>(healthInsuranceOrder);
+                orderRequest.SetDefaultData();
+
+                orderRequest.Data.PRODUCT_CODE = healthInsuranceOrder.productCode;
+                orderRequest.Data.CATEGORY = healthInsuranceOrder.category.code;
+
+                orderRequest.Data.PAY_INFO = new PaymentInfo()
+                {
+                    PAYMENT_TYPE = "TH"
+                };
+
+                foreach (var detail in healthInsuranceOrder.Details)
+                {
+                    var healthInsurance = mapper.Map<HealthInsurance>(detail);
+                    orderRequest.Data.HEALTH_INSUR.Add(healthInsurance);
+                }
+
+                var result = hdiService.CreateOrder(orderRequest, out string errorMessage, 
+                    out HealthInsuranceReponseData data);
+
+                if (result)
+                {
+                    healthInsuranceOrder.contractCode = data.CONTRACT_CODE;
+                    healthInsuranceOrder.contractNo = data.CONTRACT_NO;
+                    healthInsuranceOrder.contractModel = data.CONTRACT_MODE;
+
+                    foreach(var detail in healthInsuranceOrder.Details)
+                    {
+                        var responseDetail = data.INSURED
+                            .FirstOrDefault(x => x.NAME == detail.customerName &&
+                                                 x.EMAIL == detail.customerEmail &&
+                                                 x.DOB == detail.customerDateOfBirth.ToString("dd/MM/yyyy") &&
+                                                 x.PHONE == detail.customerPhone);
+                        if(responseDetail != null)
+                        {
+                            detail.urlGCN = responseDetail.URL_GCN;
+                        }
+                    }
+
+                    context.SaveChanges();
+
+                    return RedirectToAction("Detail", "HealthInsuranceOrder", new { orderCode = orderCode });
+                }
+            }
+
+            return View();
         }
     }
 }

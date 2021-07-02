@@ -39,8 +39,8 @@ namespace Payment.Data.Extensions
             requestData.AddData("vnp_CurrCode", "VND");
             requestData.AddData("vnp_TxnRef", order.orderId);
             requestData.AddData("vnp_OrderInfo", order.orderDescription);
-            requestData.AddData("vnp_OrderType", "topup");
-            requestData.AddData("vnp_Amount", (order.amount * 100).ToString());
+            requestData.AddData("vnp_OrderType", order.type.code);
+            requestData.AddData("vnp_Amount", ((int)(order.amount * 100)).ToString());
             requestData.AddData("vnp_ReturnUrl", AppGlobal.VNP_ReturnUrl);
             requestData.AddData("vnp_IpAddr", clientIp);
             requestData.AddData("vnp_CreateDate", order.createdAt.ToString("yyyyMMddHHmmss"));

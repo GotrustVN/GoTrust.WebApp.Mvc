@@ -7,6 +7,7 @@ namespace Payment.Data.Entities
     public class OrderInfor : BaseEntity
     {
         public string orderId { get; set; }
+        public string refDocNo { get; set; }
         public string orderDescription { get; set; }
         public decimal amount { get; set; }
         public OrderType type { get; set; }

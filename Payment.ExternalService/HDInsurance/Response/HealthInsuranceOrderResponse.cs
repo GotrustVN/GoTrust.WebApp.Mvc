@@ -12,6 +12,6 @@ namespace Payment.ExternalService.HDInsurance
         public string Error { get; set; }
         public string ErrorMessage { get; set; }
         public string Signature { get; set; }
-        public object Data { get; set; }
+        public JArray Data { get; set; }
     }
 }

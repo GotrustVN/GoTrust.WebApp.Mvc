@@ -65,6 +65,51 @@
 </div>
 
 <div>
+    <h4>Thông tin đơn</h4>
+    <hr />
+    <dl class="row m-0">
+        <dt class="col-sm-2">
+            Mã hợp đồng:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.contractCode)
+        </dd>
+    </dl>
+    <dl class="row m-0">
+        <dt class="col-sm-2">
+            Số hợp đồng:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.contractNo)
+        </dd>
+    </dl>
+    <dl class="row m-0">
+        <dt class="col-sm-2">
+            Loại hợp đồng:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.contractModel)
+        </dd>
+    </dl>
+    <dl class="row m-0">
+        <dt class="col-sm-2">
+            Tổng tiền:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.totalAmount)
+        </dd>
+    </dl>
+    <dl class="row m-0">
+        <dt class="col-sm-2">
+            Trạng thái:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.status)
+        </dd>
+    </dl>
+</div>
+
+<div>
     <h4>Thông tin bảo hiểm</h4>
     @foreach (var detail in Model.details)
     {
@@ -90,7 +135,7 @@
                 Quan hệ người mua:
             </dt>
             <dd class="col-sm-10">
-                @detail.relationship.name
+                @detail.relationship.description
             </dd>
         </dl>
         <dl class="row m-0">
@@ -133,6 +178,15 @@
                 @detail.customerType
             </dd>
         </dl>
+        <dl class="row m-0">
+            <dt class="col-sm-2">
+                Giấy chứng nhận:
+            </dt>
+            <dd class="col-sm-10">
+                <a href="@detail.urlGCN">Tải về</a>
+            </dd>
+        </dl>
+        
     }
 </div>
 
@@ -143,7 +197,10 @@
         </a>
     </div>
     <div class="col-6 col-md-1">
-        <a asp-action="Payment" asp-route-code="@Model.code" class="btn btn-success w-100 text-white">
+        <a asp-action="Index" asp-controller="Payment"
+           asp-route-orderTypeCode="other"
+           asp-route-orderDescription="@(Model.buyerName + " thanh toán tiền hiểm số " + Model.code)"
+           asp-route-amount="@Model.totalAmount" asp-route-refDocNo="@Model.code" class="btn btn-success w-100 text-white">
             Thanh toán
         </a>
     </div>
