@@ -64,7 +64,6 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("PaymentFailOrderStatusCode").Value;
             }
         }
-
         public static string DefaultFileUploadDirectory
         {
             get
@@ -76,7 +75,6 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("DefaultFileUploadDirectory").Value;
             }
         }
-
         public static string DefaultImageUploadDirectory
         {
             get
@@ -88,7 +86,6 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("DefaultImageUploadDirectory").Value;
             }
         }
-
         public static string DefaultImportUploadDirectory
         {
             get
@@ -100,7 +97,6 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("DefaultImportUploadDirectory").Value;
             }
         }
-
         public static string DefaultCustomerDetailRequestUrl
         {
             get
@@ -112,7 +108,6 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("DefaultCustomerDetailRequestUrl").Value;
             }
         }
-
         public static string DefaultLogoDirectory
         {
             get
@@ -282,6 +277,56 @@ namespace Payment.SharedUltilities.Global
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 return builder.Build().GetSection("HDInsurance")
                     .GetSection("HDILongIn_ActionCode").Value;
+            }
+        }
+        #endregion
+
+        #region Blue Bolt
+        public static string BlueBolt_BaseUrl
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("BlueBolt")
+                    .GetSection("BlueBolt_BaseUrl").Value;
+            }
+        }
+
+        public static string BlueBolt_Username
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("BlueBolt")
+                    .GetSection("BlueBolt_Username").Value;
+            }
+        }
+
+        public static string BlueBolt_Password
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("BlueBolt")
+                    .GetSection("BlueBolt_Password").Value;
+            }
+        }
+
+        public static string BlueBolt_Company_Code
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("BlueBolt")
+                    .GetSection("BlueBolt_Company_Code").Value;
             }
         }
         #endregion
