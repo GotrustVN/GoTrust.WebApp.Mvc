@@ -4,12 +4,9 @@ using System.Text;
 
 namespace Payment.ExternalService.BlueBolt
 {
-    public class LoginResponse
+    public class LoginResponse : BaseResponse
     {
-        public int code { get; set; }
         public LoginData data { get; set; }
-        public string error { get; set; }
-        public string message { get; set; }
     }
     public class LoginData
     {
