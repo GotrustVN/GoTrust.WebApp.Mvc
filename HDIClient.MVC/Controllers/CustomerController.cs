@@ -61,6 +61,9 @@ namespace HDIClient.MVC.Controllers
         {
             var customer = customerRepository.GetById(code, true);
 
+            if (customer == null)
+                return NotFound();
+
             var model = mapper.Map<CustomerDetailViewModel>(customer);
 
             model.customerTypes = genericCustomerTypeRepository.Get()

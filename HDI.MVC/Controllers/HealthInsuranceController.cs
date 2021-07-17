@@ -187,7 +187,7 @@ namespace HDI.MVC.Controllers
                     orderRequest.Data.HEALTH_INSUR.Add(healthInsurance);
                 }
 
-                var createResult = hdiService.CreateOrder(orderRequest, out string errorMessage);
+                var createResult = hdiService.CreateOrder(orderRequest, out string errorMessage, out HealthInsuranceReponseData reponseData);
 
                 if (!createResult)
                 {

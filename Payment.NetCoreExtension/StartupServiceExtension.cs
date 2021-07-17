@@ -1,10 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Payment.Data.Entities;
 using Payment.Data.Repositories;
 using Payment.ExternalService;
 using Payment.ExternalService.HDInsurance;
+using Payment.SharedUltilities.Global;
 using System;
+using System.Text;
 
 namespace Payment.NetCoreExtension
 {
@@ -35,6 +40,8 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IGenericRepository<MasterCategory>, GenericRepository<MasterCategory>>();
             services.AddScoped<IGenericRepository<FileType>, GenericRepository<FileType>>();
             services.AddScoped<IGenericRepository<FileImport>, GenericRepository<FileImport>>();
+            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+            
             services.AddScoped<IProvinceRepository, ProvinceRepository>();
             services.AddScoped<IMasterCategoryRepository, MasterCatetoryRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -46,6 +53,31 @@ namespace Payment.NetCoreExtension
         {
             services.AddScoped<IHDIService, HDIService>();
             services.AddScoped<IVNPayService, VNPayService>();
+        }
+
+        public static IServiceCollection AddTokenAuthentication(this IServiceCollection services,
+            IConfiguration config)
+        {
+            var secret = AppGlobal.TokenSecretKey;
+            var key = Encoding.ASCII.GetBytes(secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidIssuer = string.Empty,
+                    ValidAudience = string.Empty
+                };
+            });
+
+            return services;
         }
 
     }

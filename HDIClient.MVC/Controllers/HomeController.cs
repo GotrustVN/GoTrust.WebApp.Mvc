@@ -28,6 +28,11 @@ namespace HDIClient.MVC.Controllers
             return View();
         }
 
+        public IActionResult Customer(string customerCode, string contact)
+        {
+            return RedirectToAction("Detail", "Customer", new { code = customerCode });
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

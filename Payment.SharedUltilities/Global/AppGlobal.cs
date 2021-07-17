@@ -293,7 +293,6 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("BlueBolt_BaseUrl").Value;
             }
         }
-
         public static string BlueBolt_Username
         {
             get
@@ -305,7 +304,6 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("BlueBolt_Username").Value;
             }
         }
-
         public static string BlueBolt_Password
         {
             get
@@ -317,7 +315,6 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("BlueBolt_Password").Value;
             }
         }
-
         public static string BlueBolt_Company_Code
         {
             get
@@ -329,6 +326,22 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("BlueBolt_Company_Code").Value;
             }
         }
+        #endregion
+
+        #region
+
+        public static string TokenSecretKey
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("AppSettings")
+                    .GetSection("TokenSecretKey").Value;
+            }
+        }
+
         #endregion
     }
 }

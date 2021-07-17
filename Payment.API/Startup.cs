@@ -43,11 +43,14 @@ namespace Payment.API
             services.AddSingleton<IDbInitializer, DbInitializer>();
             services.AddDbContext<AppDbContext>();
 
+            services.AddTokenAuthentication(Configuration);
+
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new OrderRequestMapping());
                 mc.AddProfile(new CustomerRequestMapping());
                 mc.AddProfile(new HealthInsuranceRequestMapping());
+                mc.AddProfile(new UserRequestMapping());
             });
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
@@ -66,10 +69,7 @@ namespace Payment.API
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment.API v1"));
-
             }
-
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment.API v1"));
 
             app.UseHttpsRedirection();
 
