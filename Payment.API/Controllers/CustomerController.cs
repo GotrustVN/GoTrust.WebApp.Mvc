@@ -19,29 +19,38 @@ namespace Payment.API.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly IGenericRepository<Customer> genericCustomerRepository;
+        private readonly IGenericRepository<User> genericUserRepository;
         private readonly IGenericRepository<CustomerType> genericCustomerTypeRepository;
         private readonly IGenericRepository<Province> genericProvinceRepository;
         private readonly IGenericRepository<District> genericDistrictRepository;
         private readonly IGenericRepository<Gender> genericGenderRepository;
         private readonly IGenericRepository<Ward> genericWardRepository;
+        private readonly IUserRepository userRepository;
+        private readonly ICustomerRepository customerRepository;
         private readonly IMapper mapper;
         private readonly AppDbContext context;
 
         public CustomerController(IGenericRepository<Customer> genericCustomerRepository,
+            IGenericRepository<User> genericUserRepository,
             IGenericRepository<CustomerType> genericCustomerTypeRepository,
             IGenericRepository<Province> genericProvinceRepository,
             IGenericRepository<District> genericDistrictRepository,
             IGenericRepository<Gender> genericGenderRepository,
             IGenericRepository<Ward> genericWardRepository,
+            IUserRepository userRepository,
+            ICustomerRepository customerRepository,
             IMapper mapper,
             AppDbContext context)
         {
             this.genericCustomerRepository = genericCustomerRepository;
+            this.genericUserRepository = genericUserRepository;
             this.genericCustomerTypeRepository = genericCustomerTypeRepository;
             this.genericProvinceRepository = genericProvinceRepository;
             this.genericDistrictRepository = genericDistrictRepository;
             this.genericGenderRepository = genericGenderRepository;
             this.genericWardRepository = genericWardRepository;
+            this.userRepository = userRepository;
+            this.customerRepository = customerRepository;
             this.mapper = mapper;
             this.context = context;
         }
@@ -74,6 +83,12 @@ namespace Payment.API.Controllers
                 var customer = mapper.Map<Customer>(request);
                 customer.SetDefaultValue();
 
+                if(customerRepository.IsExistCustomerWithEmail(request.email, out Customer existCustomer))
+                {
+                    ModelState.AddModelError("Email", "Email was used");
+                    return BadRequest(ModelState);
+                }
+
                 if (!genericCustomerTypeRepository.IsExistById(request.typeCode, out CustomerType customerType))
                 {
                     ModelState.AddModelError("CustomerTypeError","Invalid customer type");
@@ -85,7 +100,7 @@ namespace Payment.API.Controllers
                 if(!genericGenderRepository.IsExistById(request.genderCode, out Gender gender))
                 {
                     ModelState.AddModelError("GenderError", "Invalid customer gender");
-                    return BadRequest();
+                    return BadRequest(ModelState);
                 }
 
                 customer.gender = gender;
@@ -109,6 +124,12 @@ namespace Payment.API.Controllers
 
                 customer.SetFullAddress();
 
+                if(userRepository.IsExistUserWithEmail(customer.email, out User user))
+                {
+                    ProcessCustomerLib.UpdateCustomerForUser(customer, user);
+                }
+
+                genericUserRepository.Update(user);
                 genericCustomerRepository.Insert(customer);
                 var result = context.SaveChanges();
 

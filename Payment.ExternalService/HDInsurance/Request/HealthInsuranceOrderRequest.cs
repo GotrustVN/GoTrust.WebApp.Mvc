@@ -13,6 +13,7 @@ namespace Payment.ExternalService.HDInsurance
         {
 
         }
+
         public HealthInsuranceOrderRequest(bool initDefault = false)
         {
             if (initDefault)

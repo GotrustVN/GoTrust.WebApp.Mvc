@@ -211,7 +211,7 @@ namespace Payment.MiddleLayer.Processes
                 Margin = 0,
                 PureBarcode = false,
             };
-            //encodingOptions.Hints.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.);
+
             barcodeWriter.Renderer = new BitmapRenderer();
             barcodeWriter.Options = encodingOptions;
             barcodeWriter.Format = BarcodeFormat.QR_CODE;
@@ -225,6 +225,21 @@ namespace Payment.MiddleLayer.Processes
             {
                 bitmap.Save(stream, ImageFormat.Png);
                 return stream.ToArray();
+            }
+        }
+
+        public static bool UpdateCustomerForUser(Customer customer, User user)
+        {
+            if(user.email != customer.email)
+                return false;
+            else if (string.IsNullOrEmpty(customer.code))
+            {
+                return false;
+            }
+            else
+            {
+                user.customerCode = customer.code;
+                return true;
             }
         }
 

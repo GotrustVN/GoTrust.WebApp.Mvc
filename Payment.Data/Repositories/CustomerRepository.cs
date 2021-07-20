@@ -12,6 +12,7 @@ namespace Payment.Data.Repositories
     public interface ICustomerRepository
     {
         bool IsValidCustomerCode(string code, out Customer customer);
+        bool IsExistCustomerWithEmail(string email, out Customer customer);
         Customer GetById(string id, bool includeAll = false);
     }
     public class CustomerRepository : ICustomerRepository
@@ -57,6 +58,18 @@ namespace Payment.Data.Repositories
                 return true;
             }
             customer = null;
+            return false;
+        }
+
+        public bool IsExistCustomerWithEmail(string email, out Customer customer)
+        {
+            customer = null;
+            customer = context.Customer.FirstOrDefault(c => c.email == email);
+
+            if(customer != null)
+            {
+                return true;
+            }
             return false;
         }
     }

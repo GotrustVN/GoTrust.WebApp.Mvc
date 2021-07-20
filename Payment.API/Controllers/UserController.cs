@@ -21,14 +21,17 @@ namespace Payment.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IGenericRepository<User> genericUserRepository;
+        private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
         private readonly AppDbContext context;
 
         public UserController(IGenericRepository<User> genericUserRepository,
+            IUserRepository userRepository,
             IMapper mapper,
             AppDbContext context)
         {
             this.genericUserRepository = genericUserRepository;
+            this.userRepository = userRepository;
             this.mapper = mapper;
             this.context = context;
         }
@@ -77,6 +80,13 @@ namespace Payment.API.Controllers
             if (ModelState.IsValid)
             {
                 var user = mapper.Map<User>(model);
+
+                if (userRepository.IsExistUserWithEmail(model.email, out User existUser))
+                {
+                    ModelState.AddModelError("Error", "Email was used");
+                    return BadRequest(ModelState);
+                }
+
                 user.SetPassword();
 
                 var response = new CommonResponse();
