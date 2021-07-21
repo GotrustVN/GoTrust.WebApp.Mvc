@@ -45,6 +45,10 @@ namespace Payment.Data.Context
         public virtual DbSet<HealthInsuranceDetail> HealthInsuranceDetail { get; set; }
         public virtual DbSet<HealthInsurancePayment> HealthInsurancePayment { get; set; }
         public virtual DbSet<FileType> FileType { get; set; }
+        public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<Rescue> Rescue { get; set; }
+        public virtual DbSet<RescueType> RescueType { get; set; }
+        public virtual DbSet<RescueThumbnail> RescueThumbnail { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,6 +72,10 @@ namespace Payment.Data.Context
             modelBuilder.ApplyConfiguration(new HealthInsuranceOrderConfiguration());
             modelBuilder.ApplyConfiguration(new HealthInsurancePaymentConfiguration());
             modelBuilder.ApplyConfiguration(new FileTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new RescueConfiguration());
+            modelBuilder.ApplyConfiguration(new RescueTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new RescueThumnailConfiguration());
         }
 
     }

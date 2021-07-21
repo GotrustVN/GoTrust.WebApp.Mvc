@@ -41,6 +41,10 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IGenericRepository<FileType>, GenericRepository<FileType>>();
             services.AddScoped<IGenericRepository<FileImport>, GenericRepository<FileImport>>();
             services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+            services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
+            services.AddScoped<IGenericRepository<Rescue>, GenericRepository<Rescue>>();
+            services.AddScoped<IGenericRepository<RescueType>, GenericRepository<RescueType>>();
+            services.AddScoped<IGenericRepository<RescueThumbnail>, GenericRepository<RescueThumbnail>>();
             
             services.AddScoped<IProvinceRepository, ProvinceRepository>();
             services.AddScoped<IMasterCategoryRepository, MasterCatetoryRepository>();
