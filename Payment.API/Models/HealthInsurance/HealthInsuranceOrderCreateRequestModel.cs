@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +16,8 @@ namespace Payment.API.Models
         public string buyerCode { get; set; }
         public string buyerName { get; set; }
         public string buyerType { get; set; }
-        public DateTime? buyerDateOfBirth { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? buyerDateOfBirth { get; set; } = null;
         public string buyerGender { get; set; }
         public string buyerProvince { get; set; }
         public string buyerDistrict { get; set; }
@@ -25,7 +27,7 @@ namespace Payment.API.Models
         public string buyerNationality { get; set; }
         public string buyerIdentityNumber { get; set; }
         public string buyerIdentityPlace { get; set; }
-        public DateTime? buyerIdentityDate { get; set; }
+        public DateTime? buyerIdentityDate { get; set; } = null;
         public string buyerPhone { get; set; }
         public string buyerEmail { get; set; }
         public string buyerFax { get; set; }

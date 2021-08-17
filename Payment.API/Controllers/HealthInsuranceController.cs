@@ -64,12 +64,17 @@ namespace Payment.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<CommonResponse> CreateHealthInsuranceOrder(HealthInsuranceOrderCreateRequestModel request)
+        public ActionResult<CommonResponse> CreateHealthInsuranceOrder([FromBody]HealthInsuranceOrderCreateRequestModel request)
         {
-            if(ModelState.IsValid)
+            ModelState.Remove("buyerIndentityDate");
+
+            foreach (var key in ModelState.Keys.Where(m => m.Contains("customerIdentityDate")).ToList())
+                ModelState.Remove(key);
+
+            if (ModelState.IsValid)
             {
-                var healthInsuranaceOrder = mapper.Map<HealthInsuranceOrder>(request);
-                healthInsuranaceOrder.SetDefaultValue();
+                var healthInsuranceOrder = mapper.Map<HealthInsuranceOrder>(request);
+                healthInsuranceOrder.SetDefaultValue();
 
                 if (!genericMasterCategoryRepository.IsExistById(request.categoryCode, out MasterCategory category))
                 {
@@ -77,7 +82,7 @@ namespace Payment.API.Controllers
                     return BadRequest();
                 }
 
-                healthInsuranaceOrder.category = category;
+                healthInsuranceOrder.category = category;
 
                 if (!customerRepository.IsValidCustomerCode(request.buyerCode, out Customer customer))
                 {
@@ -85,44 +90,26 @@ namespace Payment.API.Controllers
                     return BadRequest();
                 }
 
-                healthInsuranaceOrder.buyer = customer;
-                healthInsuranaceOrder.UpdateBuyerInfor();
+                healthInsuranceOrder.buyer = customer;
+                healthInsuranceOrder.UpdateBuyerInfor();
 
-                foreach(var detail in request.Details)
+                foreach (var detail in request.Details)
                 {
                     var healthInsuranceDetail = mapper.Map<HealthInsuranceDetail>(detail);
-                    healthInsuranaceOrder.Details.Add(healthInsuranceDetail);
+
+                    if (genericMasterCategoryRepository.IsExistById(detail.relationshipCode,
+                        out MasterCategory relationship))
+                    {
+                        healthInsuranceDetail.relationship = relationship;
+                    }
+
+                    if (healthInsuranceOrder.Details == null)
+                        healthInsuranceOrder.Details = new List<HealthInsuranceDetail>();
+                    healthInsuranceOrder.Details.Add(healthInsuranceDetail);
                 }
 
-                var payment = mapper.Map<HealthInsurancePayment>(request.payment);
-                healthInsuranaceOrder.payment = payment;
-
-                var orderRequest = mapper.Map<HealthInsuranceOrderRequest>(healthInsuranaceOrder);
-                orderRequest.SetDefaultData();
-
-                orderRequest.Data.PRODUCT_CODE = healthInsuranaceOrder.productCode;
-                orderRequest.Data.CATEGORY = healthInsuranaceOrder.category.code;
-
-                orderRequest.Data.PAY_INFO = new PaymentInfo()
-                {
-                    PAYMENT_TYPE = healthInsuranaceOrder.payment.paymentType
-                };
-
-                foreach(var detail in healthInsuranaceOrder.Details)
-                {
-                    var healthInsurance = mapper.Map<HealthInsurance>(detail);
-                    orderRequest.Data.HEALTH_INSUR.Add(healthInsurance);
-                }
-
-                var createResult = hdiService.CreateOrder(orderRequest, out string errorMessage, out HealthInsuranceReponseData reponseData);
-
-                if (!createResult)
-                {
-                    ModelState.AddModelError("HDI", errorMessage);
-                    return BadRequest(ModelState);
-                }
-
-                genericHealthInsuranceOrderRepository.Insert(healthInsuranaceOrder);
+                healthInsuranceOrder.totalAmount = healthInsuranceOrder.Details.Sum(x => x.totalAmount);
+                genericHealthInsuranceOrderRepository.Insert(healthInsuranceOrder);
 
                 var result = context.SaveChanges();
 
@@ -131,12 +118,12 @@ namespace Payment.API.Controllers
                 if (result > 0)
                 {
                     response.GetDeleteSuccessResponse("health insurance")
-                        .SetData(healthInsuranaceOrder);
+                        .SetData(healthInsuranceOrder);
                 }
                 else
                 {
-                    response.GetDeleteSuccessResponse("customer insurance")
-                        .SetData(healthInsuranaceOrder);
+                    response.GetDeleteSuccessResponse("health insurance")
+                        .SetData(healthInsuranceOrder);
                 }
 
                 return response;

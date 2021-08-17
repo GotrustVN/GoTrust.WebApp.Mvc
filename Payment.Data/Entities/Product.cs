@@ -15,5 +15,8 @@ namespace Payment.Data.Entities
         public decimal vat { get; set; }
         public decimal discount { get; set; }
         public decimal amount { get; set; }
+        public string icon { get; set; }
+        public bool isReadyToSell { get; set; }
+        public string category { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace Payment.MVC.Controllers
         private readonly IGenericRepository<Bank> genericBankRepository;
         private readonly IGenericRepository<Language> genericLanguageRepository;
         private readonly IGenericRepository<PaymentLog> genericPaymentLogRepository;
+        private readonly IOrderInforRepository orderInforRepository;
         private readonly IMapper mapper;
         private readonly AppDbContext context;
 
@@ -37,6 +38,7 @@ namespace Payment.MVC.Controllers
             IGenericRepository<Bank> genericBankRepository,
             IGenericRepository<Language> genericLanguageRepository,
             IGenericRepository<PaymentLog> genericPaymentLogRepository,
+            IOrderInforRepository orderInforRepository,
             IMapper mapper,
             AppDbContext context)
         {
@@ -47,6 +49,7 @@ namespace Payment.MVC.Controllers
             this.genericBankRepository = genericBankRepository;
             this.genericLanguageRepository = genericLanguageRepository;
             this.genericPaymentLogRepository = genericPaymentLogRepository;
+            this.orderInforRepository = orderInforRepository;
             this.mapper = mapper;
             this.context = context;
         }
@@ -132,9 +135,7 @@ namespace Payment.MVC.Controllers
                         viewModel.isSuccess = true;
                         viewModel.message = AppGlobal.DefaultPaymentSuccessMessage;
 
-                        //Update order infor with log
-                        var paymentSuccessStatus = genericOrderStatusRepository.GetByID(AppGlobal.PaymentSuccessOrderStatusCode);
-                        orderInfor.SetOrderStatus(paymentSuccessStatus);
+                        
                     }
                     else
                     {
@@ -143,17 +144,87 @@ namespace Payment.MVC.Controllers
                         orderInfor.SetOrderStatus(paymentFailedStatus);
                     }
 
-                    var paymentLog = mapper.Map<PaymentLog>(model);
-                    genericPaymentLogRepository.Insert(paymentLog);
-
-                    context.SaveChanges();
-
                     return View(viewModel);
                 }
                 viewModel.message = AppGlobal.DefaultInvalidSignatureMessage;
             }
 
             return View(viewModel);
+        }
+
+        [Route("api/vnpay/payment-notify")]
+        public IActionResult VnPayConfirm(VNPPaymentReturnModel model)
+        {
+            var result = new VNPayPaymentReturnResponseModel();
+            
+            try
+            {
+                if (model != null)
+                {
+                    var responeData = model.ToSortedList(new VNPayCompare());
+                    var isValidSignature = SecurityHelper.ValidateSignature(responeData, model.vnp_SecureHash,
+                        AppGlobal.VNP_HashSecret);
+
+                    if (isValidSignature)
+                    {
+                        var orderInfor = orderInforRepository.GetByID(model.vnp_TxnRef);
+
+                        if (orderInfor != null)
+                        {
+                            if (model.vnp_ResponseCode == "00")
+                            {
+                                if (orderInfor.status?.code != AppGlobal.PaymentSuccessOrderStatusCode)
+                                {
+                                    var paymentSuccessStatus = genericOrderStatusRepository.GetByID(AppGlobal.PaymentSuccessOrderStatusCode);
+                                    orderInfor.SetOrderStatus(paymentSuccessStatus);
+                                    result.Message = "Confirm Success";
+                                    result.RspCode = "00";
+                                }
+                                else
+                                {
+                                    result.Message = "Order already confirmed";
+                                    result.RspCode = "02";
+                                }
+
+                                if (orderInfor.amount * 100 != model.vnp_Amount)
+                                {
+                                    result.Message = "Invalid amount";
+                                    result.RspCode = "04";
+                                }
+                            }
+                            else
+                            {
+                                var paymentFailedStatus = genericOrderStatusRepository.GetByID(AppGlobal.PaymentFailOrderStatusCode);
+                                orderInfor.SetOrderStatus(paymentFailedStatus);
+                                result.Message = "Confirm Success";
+                                result.RspCode = "00";
+                            }
+                        }
+                        else
+                        {
+                            result.Message = "Order Not Found";
+                            result.RspCode = "01";
+                        }
+                    }
+                    else
+                    {
+                        result.Message = "Invalid Checksum";
+                        result.RspCode = "97";
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Unknown error";
+                result.RspCode = "99";
+            }
+
+            var paymentLog = mapper.Map<PaymentLog>(model);
+            genericPaymentLogRepository.Insert(paymentLog);
+            context.SaveChanges();
+
+            return Ok(result);
         }
     }
 }

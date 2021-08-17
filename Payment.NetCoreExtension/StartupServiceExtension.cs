@@ -52,6 +52,7 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IDistrictRepository, DistrictRepository>();
             services.AddScoped<IHealthInsuranceOrderRepository, HealthInsuranceOrderRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IOrderInforRepository, OrderInforRepository>();
         }
 
         public static void AddExternalService(this IServiceCollection services)

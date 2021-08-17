@@ -7,6 +7,7 @@ namespace Payment.API.Models
 {
     public class OrderRequestModel
     {
+        public string refDocNo { get; set; }
         public string orderDescription { get; set; }
         public string orderTypeCode { get; set; }
         public decimal amount { get; set; }
