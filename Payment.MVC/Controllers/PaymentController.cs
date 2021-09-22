@@ -128,20 +128,14 @@ namespace Payment.MVC.Controllers
 
                 if(isValidSignature)
                 {
-                    var orderInfor = genericOrderInforRepository.GetByID(model.vnp_TxnRef);
-
                     if (model.vnp_ResponseCode == "00")
                     {
                         viewModel.isSuccess = true;
                         viewModel.message = AppGlobal.DefaultPaymentSuccessMessage;
-
-                        
                     }
                     else
                     {
                         viewModel.message = "Mã lỗi: " + model.vnp_ResponseCode;
-                        var paymentFailedStatus = genericOrderStatusRepository.GetByID(AppGlobal.PaymentFailOrderStatusCode);
-                        orderInfor.SetOrderStatus(paymentFailedStatus);
                     }
 
                     return View(viewModel);
